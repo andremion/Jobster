@@ -1,0 +1,21 @@
+CREATE TABLE contentTable (
+    contentId TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    url TEXT NOT NULL,
+    image TEXT
+);
+
+upsert:
+INSERT OR REPLACE INTO contentTable (contentId, title, description, url, image)
+VALUES (:contentId, :title, :description, :url, :image);
+
+deleteById:
+DELETE FROM contentTable WHERE contentId = :contentId;
+
+selectAll:
+SELECT * FROM contentTable;
+
+getByIds:
+SELECT * FROM contentTable
+WHERE contentId IN :contentIds;

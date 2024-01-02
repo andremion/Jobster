@@ -1,0 +1,43 @@
+CREATE TABLE jobTable (
+    jobId TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    company TEXT NOT NULL,
+    url TEXT UNIQUE NOT NULL,
+    logo TEXT
+);
+
+upsert:
+INSERT OR REPLACE INTO jobTable (jobId, title, company, url, logo)
+VALUES (:jobId, :title, :company, :url, :logo);
+
+deleteById:
+DELETE FROM jobTable WHERE jobId = :jobId;
+
+selectAll:
+SELECT * FROM jobTable;
+
+selectAllWithContents:
+SELECT * FROM jobTable
+INNER JOIN jobContentTable ON jobTable.jobId = jobContentTable.jobId
+INNER JOIN contentTable ON jobContentTable.contentId = contentTable.contentId
+ORDER BY jobTable.title, contentTable.title;
+
+getJobById:
+SELECT * FROM jobTable
+INNER JOIN jobContentTable ON jobTable.jobId = jobContentTable.jobId
+INNER JOIN contentTable ON jobContentTable.contentId = contentTable.contentId
+WHERE jobTable.jobId = :id
+ORDER BY jobTable.title, contentTable.title;
+
+searchForContent:
+SELECT * FROM
+(
+    SELECT 'Job' AS type, jobId AS id, title, company AS description, url
+    FROM jobTable
+    WHERE title LIKE :query OR company LIKE :query
+    UNION ALL
+    SELECT 'Content' AS type, contentId AS id, title, description, url
+    FROM contentTable
+    WHERE title LIKE :query OR description LIKE :query
+)
+ORDER BY title;

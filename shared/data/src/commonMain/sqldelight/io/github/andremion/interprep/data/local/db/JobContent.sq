@@ -1,0 +1,17 @@
+CREATE TABLE jobContentTable (
+    jobId TEXT NOT NULL,
+    contentId TEXT NOT NULL,
+    PRIMARY KEY (jobId, contentId)
+);
+
+upsert:
+INSERT OR REPLACE INTO jobContentTable (jobId, contentId)
+VALUES (:jobId, :contentId);
+
+delete:
+DELETE FROM jobContentTable
+WHERE jobId = :jobId AND contentId = :contentId;
+
+countByContentId:
+SELECT COUNT() FROM jobContentTable
+WHERE contentId = :contentId;
