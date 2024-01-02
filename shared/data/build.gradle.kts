@@ -46,7 +46,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.andremion.interprep.data"
+    namespace = "io.github.andremion.jobster.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -55,8 +55,8 @@ android {
 
 sqldelight {
     databases {
-        create("Database") {
-            packageName.set("io.github.andremion.interprep.data.local.db")
+        create("JobsterDatabase") {
+            packageName.set("io.github.andremion.jobster.data.local.db")
         }
     }
 }

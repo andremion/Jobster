@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "InterPrep"
+rootProject.name = "Jobster"
 
 include(":android")
 include(":shared:domain")

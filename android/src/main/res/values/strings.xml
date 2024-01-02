@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">InterPrep</string>
+    <string name="app_name">Jobster</string>
     <string name="home_navigation_job_list_label">Jobs</string>
     <string name="home_navigation_content_list_label">Contents</string>
     <string name="home_fab_add_content_button">Add content</string>
