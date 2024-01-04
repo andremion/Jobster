@@ -18,7 +18,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Jobster"
 
-include(":android")
+include(":composeApp")
 include(":shared:domain")
 include(":shared:data")
 include(":shared:presentation")
