@@ -2,8 +2,8 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.android.library)
 }
 
 kotlin {
@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "SharedUI"
             isStatic = true
         }
     }
@@ -53,42 +53,9 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.andremion.jobster"
+    namespace = "io.github.andremion.jobster.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-
     defaultConfig {
-        applicationId = "io.github.andremion.jobster.android"
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    packaging {
-        resources {
-            excludes += listOf(
-                "META-INF/DEPENDENCIES",
-                "mozilla/public-suffix-list.txt"
-            )
-        }
-    }
-    dependencies {
-        debugImplementation(compose.uiTooling)
-        debugImplementation(compose.preview)
     }
 }
