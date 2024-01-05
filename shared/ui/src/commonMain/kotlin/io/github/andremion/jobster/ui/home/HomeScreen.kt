@@ -323,7 +323,7 @@ private fun EmptySearchResults(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(name = "animation_empty"))
+            val composition by rememberLottieComposition(LottieCompositionSpec.AnimationRes(name = "search_results_empty"))
             LottieAnimation(
                 modifier = Modifier.size(200.dp),
                 composition = composition,

@@ -35,8 +35,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             @OptIn(ExperimentalComposeLibrary::class)
-            // TODO Resources implementation
-//            implementation(compose.components.resources)
+            implementation(compose.components.resources)
 
             implementation(libs.precompose)
             implementation(libs.koin.core)
@@ -55,6 +54,9 @@ kotlin {
 android {
     namespace = "io.github.andremion.jobster.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }

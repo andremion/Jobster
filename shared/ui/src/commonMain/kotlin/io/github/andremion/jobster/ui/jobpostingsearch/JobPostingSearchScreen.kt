@@ -151,7 +151,7 @@ private fun ScreenContent(
                         LinearProgressIndicator(
                             modifier = Modifier.fillMaxWidth()
                         )
-                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(name = "animation_job_posting_searching"))
+                        val composition by rememberLottieComposition(LottieCompositionSpec.AnimationRes(name = "job_posting_search_loading"))
                         LottieAnimation(
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -282,7 +282,7 @@ private fun Error(
         modifier = modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(name = "animation_error"))
+        val composition by rememberLottieComposition(LottieCompositionSpec.AnimationRes(name = "job_posting_search_error"))
         LottieAnimation(
             modifier = Modifier.size(200.dp),
             composition = composition,
