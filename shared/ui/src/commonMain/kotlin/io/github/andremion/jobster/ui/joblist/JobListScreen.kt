@@ -18,31 +18,25 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.andremion.boomerang.onUiEffect
+import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.presentation.joblist.JobListPresenter
 import io.github.andremion.jobster.presentation.joblist.JobListUiEffect
 import io.github.andremion.jobster.presentation.joblist.JobListUiEvent
 import io.github.andremion.jobster.presentation.joblist.JobListUiState
-import org.koin.compose.koinInject
 
 @Composable
 fun JobListScreen(
     onNavigateToJobDetails: (jobId: String) -> Unit,
 ) {
-    val presenter: JobListPresenter = koinInject<JobListPresenter>().apply { presenterScope = rememberCoroutineScope() }
-    val uiState by presenter.uiState.collectAsState()
-//    saveablePresenter { jobListPresenter } collectUiState { presenter, uiState ->
+    val presenter = injectPresenter<JobListPresenter>()
 
-//        presenter.launchInitialUiEvent { JobListUiEvent.Init }
     LaunchedEffect(presenter) {
         presenter.onUiEvent(JobListUiEvent.Init)
-    }
-//            .onUiEffect { uiEffect ->
-    LaunchedEffect(presenter) {
+
         presenter.onUiEffect { uiEffect ->
             when (uiEffect) {
                 is JobListUiEffect.NavigateToJobDetails -> {
@@ -51,6 +45,8 @@ fun JobListScreen(
             }
         }
     }
+
+    val uiState by presenter.uiState.collectAsState()
 
     ScreenContent(
         uiState = uiState,

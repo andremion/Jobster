@@ -17,33 +17,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.andremion.boomerang.onUiEffect
+import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsPresenter
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiEffect
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiEvent
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiState
-import org.koin.compose.koinInject
 
 @Composable
 fun JobDetailsScreen(
     jobId: String,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter: JobDetailsPresenter = koinInject<JobDetailsPresenter>().apply { presenterScope = rememberCoroutineScope() }
-    val uiState by presenter.uiState.collectAsState()
-//    saveablePresenter { jobDetailsPresenter } collectUiState { presenter, uiState ->
+    val presenter = injectPresenter<JobDetailsPresenter>()
 
-//        presenter.launchInitialUiEvent { JobDetailsUiEvent.Init(jobId) }
     LaunchedEffect(presenter) {
         presenter.onUiEvent(JobDetailsUiEvent.Init(jobId))
-    }
-//            .onUiEffect { uiEffect ->
-    LaunchedEffect(presenter) {
+
         presenter.onUiEffect { uiEffect ->
             when (uiEffect) {
                 is JobDetailsUiEffect.NavigateToUrl -> {
@@ -52,6 +46,8 @@ fun JobDetailsScreen(
             }
         }
     }
+
+    val uiState by presenter.uiState.collectAsState()
 
     ScreenContent(
         uiState = uiState,

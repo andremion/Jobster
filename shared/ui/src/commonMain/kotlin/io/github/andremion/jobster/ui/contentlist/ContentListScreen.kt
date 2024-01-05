@@ -18,30 +18,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.andremion.boomerang.onUiEffect
+import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.presentation.contentlist.ContentListPresenter
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiEffect
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiEvent
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiState
-import org.koin.compose.koinInject
 
 @Composable
 fun ContentListScreen(
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter: ContentListPresenter = koinInject<ContentListPresenter>().apply { presenterScope = rememberCoroutineScope() }
-    val uiState by presenter.uiState.collectAsState()
-//    saveablePresenter { contentListPresenter } collectUiState { presenter, uiState ->
+    val presenter = injectPresenter<ContentListPresenter>()
 
-//        presenter.launchInitialUiEvent { ContentListUiEvent.Init }
     LaunchedEffect(presenter) {
         presenter.onUiEvent(ContentListUiEvent.Init)
-    }
-//            .onUiEffect { uiEffect ->
-    LaunchedEffect(presenter) {
+
         presenter.onUiEffect { uiEffect ->
             when (uiEffect) {
                 is ContentListUiEffect.NavigateToUrl -> {
@@ -50,6 +44,8 @@ fun ContentListScreen(
             }
         }
     }
+
+    val uiState by presenter.uiState.collectAsState()
 
     ScreenContent(
         uiState = uiState,

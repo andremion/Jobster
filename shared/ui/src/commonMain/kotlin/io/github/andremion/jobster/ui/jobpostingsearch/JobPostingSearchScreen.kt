@@ -31,7 +31,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -42,6 +41,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.compottie.LottieAnimation
 import io.github.andremion.boomerang.onUiEffect
+import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.domain.JobRepository
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchPresenter
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiEffect
@@ -49,23 +49,16 @@ import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearc
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiState
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
-import org.koin.compose.koinInject
 
 @Composable
 fun JobPostingSearchScreen(
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter: JobPostingSearchPresenter =
-        koinInject<JobPostingSearchPresenter>().apply { presenterScope = rememberCoroutineScope() }
-    val uiState by presenter.uiState.collectAsState()
-//    saveablePresenter { jobPostingSearchPresenter } collectUiState { presenter, uiState ->
+    val presenter = injectPresenter<JobPostingSearchPresenter>()
 
-//        presenter.launchInitialUiEvent { JobPostingSearchUiEvent.Init }
     LaunchedEffect(presenter) {
         presenter.onUiEvent(JobPostingSearchUiEvent.Init)
-    }
-//            .onUiEffect { uiEffect ->
-    LaunchedEffect(presenter) {
+
         presenter.onUiEffect { uiEffect ->
             when (uiEffect) {
                 is JobPostingSearchUiEffect.NavigateToUrl -> {
@@ -74,6 +67,8 @@ fun JobPostingSearchScreen(
             }
         }
     }
+
+    val uiState by presenter.uiState.collectAsState()
 
     ScreenContent(
         uiState = uiState,

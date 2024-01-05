@@ -35,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -45,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.compottie.LottieAnimation
 import io.github.alexzhirkevich.compottie.LottieConstants
 import io.github.andremion.boomerang.onUiEffect
+import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.domain.entity.SearchResult
 import io.github.andremion.jobster.presentation.home.HomePresenter
 import io.github.andremion.jobster.presentation.home.HomeUiEffect
@@ -58,7 +58,6 @@ import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
 import moe.tlaster.precompose.navigation.Navigator
-import org.koin.compose.koinInject
 
 private enum class NavigationItem(
     val route: String,
@@ -87,17 +86,12 @@ fun HomeScreen(
     onNavigateToJobDetails: (jobId: String) -> Unit,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter: HomePresenter = koinInject<HomePresenter>().apply { presenterScope = rememberCoroutineScope() }
-    val uiState by presenter.uiState.collectAsState()
-//    saveablePresenter { homePresenter } collectUiState { presenter, uiState ->
+    val presenter = injectPresenter<HomePresenter>()
 
-//        presenter.launchInitialUiEvent { HomeUiEvent.Init }
     LaunchedEffect(presenter) {
+
         presenter.onUiEvent(HomeUiEvent.Init)
-    }
 
-//            .onUiEffect { uiEffect ->
-    LaunchedEffect(presenter) {
         presenter.onUiEffect { uiEffect ->
             when (uiEffect) {
                 is HomeUiEffect.NavigateToJobPostingSearch -> {
@@ -114,6 +108,8 @@ fun HomeScreen(
             }
         }
     }
+
+    val uiState by presenter.uiState.collectAsState()
 
     ScreenContent(
         navigator = navigator,

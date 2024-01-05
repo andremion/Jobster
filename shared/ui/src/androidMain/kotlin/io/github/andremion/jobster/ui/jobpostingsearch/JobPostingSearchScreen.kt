@@ -3,7 +3,6 @@ package io.github.andremion.jobster.ui.jobpostingsearch
 //@Preview
 //@Composable
 //private fun ScreenContentSearchBarActivePreview() {
-//    saveablePresenter {  }
 //    ScreenContent(
 //        uiState = JobPostingSearchUiState.Initial.copy(
 //            isSearchBarActive = true
