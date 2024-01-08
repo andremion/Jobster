@@ -34,14 +34,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    packaging {
-        resources {
-            excludes += listOf(
-                "META-INF/DEPENDENCIES",
-                "mozilla/public-suffix-list.txt"
-            )
-        }
-    }
 }
 
 dependencies {

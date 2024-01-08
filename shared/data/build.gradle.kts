@@ -33,13 +33,16 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.koin.core)
             implementation(libs.sqldelight.coroutines)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ksoup)
         }
         androidMain.dependencies {
-            implementation(libs.skrapeit)
+            implementation(libs.ktor.client.android)
             implementation(libs.google.generativeai)
             implementation(libs.sqldelight.android)
         }
         iosMain.dependencies {
+            implementation(libs.ktor.client.ios)
             implementation(libs.sqldelight.native)
         }
     }

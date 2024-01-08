@@ -1,7 +1,23 @@
 package io.github.andremion.jobster.data.remote
 
-import io.github.andremion.jobster.data.remote.model.ScrappedDocument
+import com.fleeksoft.ksoup.Ksoup
+import io.github.andremion.jobster.domain.JobRepository
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 
-internal interface WebScrapper {
-    suspend fun scrap(url: String): ScrappedDocument
+internal class WebScrapper(
+    private val client: HttpClient
+) {
+
+    suspend fun scrap(url: String): String =
+        try {
+            println("Scrapping $url...")
+            client.get(url)
+                .bodyAsText()
+                .let(Ksoup::parse)
+                .text()
+        } catch (cause: Throwable) {
+            throw JobRepository.GeneralJobPostingSearchException(cause)
+        }
 }
