@@ -32,7 +32,7 @@ import io.github.andremion.jobster.presentation.joblist.JobListUiState
 fun JobListScreen(
     onNavigateToJobDetails: (jobId: String) -> Unit,
 ) {
-    val presenter = injectPresenter<JobListPresenter>()
+    val presenter = injectPresenter(JobListPresenter::class)
 
     LaunchedEffect(presenter) {
         presenter.onUiEvent(JobListUiEvent.Init)

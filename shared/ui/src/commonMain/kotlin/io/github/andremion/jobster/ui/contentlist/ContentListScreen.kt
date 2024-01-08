@@ -31,7 +31,7 @@ import io.github.andremion.jobster.presentation.contentlist.ContentListUiState
 fun ContentListScreen(
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter<ContentListPresenter>()
+    val presenter = injectPresenter(ContentListPresenter::class)
 
     LaunchedEffect(presenter) {
         presenter.onUiEvent(ContentListUiEvent.Init)

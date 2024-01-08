@@ -54,7 +54,7 @@ import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 fun JobPostingSearchScreen(
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter<JobPostingSearchPresenter>()
+    val presenter = injectPresenter(JobPostingSearchPresenter::class)
 
     LaunchedEffect(presenter) {
         presenter.onUiEvent(JobPostingSearchUiEvent.Init)

@@ -33,7 +33,7 @@ fun JobDetailsScreen(
     jobId: String,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter<JobDetailsPresenter>()
+    val presenter = injectPresenter(JobDetailsPresenter::class)
 
     LaunchedEffect(presenter) {
         presenter.onUiEvent(JobDetailsUiEvent.Init(jobId))

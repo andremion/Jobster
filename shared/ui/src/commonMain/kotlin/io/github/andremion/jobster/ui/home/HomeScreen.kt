@@ -86,7 +86,7 @@ fun HomeScreen(
     onNavigateToJobDetails: (jobId: String) -> Unit,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter<HomePresenter>()
+    val presenter = injectPresenter(HomePresenter::class)
 
     LaunchedEffect(presenter) {
 
