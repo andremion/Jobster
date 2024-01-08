@@ -24,11 +24,14 @@ sealed interface LottieCompositionSpec {
 
 @Composable
 fun rememberLottieComposition(spec: LottieCompositionSpec): State<LottieComposition?> =
-    rememberLottieComposition(data = rememberLottieData(spec))
+    when (val data = rememberLottieData(spec)) {
+        null -> mutableStateOf(null)
+        else -> rememberLottieComposition(data)
+    }
 
 @Composable
-fun rememberLottieData(spec: LottieCompositionSpec): String {
-    var data by remember { mutableStateOf("") }
+fun rememberLottieData(spec: LottieCompositionSpec): String? {
+    var data by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(spec) {
         data = when (spec) {
             is LottieCompositionSpec.AnimationRes -> {
