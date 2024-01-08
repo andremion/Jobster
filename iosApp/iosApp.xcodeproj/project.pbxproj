@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78312C202B4BF5E2006E2B1C /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78312C1F2B4BF5E2006E2B1C /* ComposeView.swift */; };
 		78AF88962B4AD233008BE9F9 /* iosAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AF88952B4AD233008BE9F9 /* iosAppApp.swift */; };
 		78AF88982B4AD233008BE9F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AF88972B4AD233008BE9F9 /* ContentView.swift */; };
 		78AF889A2B4AD234008BE9F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78AF88992B4AD234008BE9F9 /* Assets.xcassets */; };
@@ -34,7 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		78AF88922B4AD233008BE9F9 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78312C1F2B4BF5E2006E2B1C /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
+		78AF88922B4AD233008BE9F9 /* Jobster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jobster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78AF88952B4AD233008BE9F9 /* iosAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppApp.swift; sourceTree = "<group>"; };
 		78AF88972B4AD233008BE9F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		78AF88992B4AD234008BE9F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -84,7 +86,7 @@
 		78AF88932B4AD233008BE9F9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				78AF88922B4AD233008BE9F9 /* iosApp.app */,
+				78AF88922B4AD233008BE9F9 /* Jobster.app */,
 				78AF88A22B4AD235008BE9F9 /* iosAppTests.xctest */,
 				78AF88AC2B4AD235008BE9F9 /* iosAppUITests.xctest */,
 			);
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				78AF88952B4AD233008BE9F9 /* iosAppApp.swift */,
+				78312C1F2B4BF5E2006E2B1C /* ComposeView.swift */,
 				78AF88972B4AD233008BE9F9 /* ContentView.swift */,
 				78AF88992B4AD234008BE9F9 /* Assets.xcassets */,
 				78AF889B2B4AD234008BE9F9 /* Preview Content */,
@@ -145,7 +148,7 @@
 			);
 			name = iosApp;
 			productName = iosApp;
-			productReference = 78AF88922B4AD233008BE9F9 /* iosApp.app */;
+			productReference = 78AF88922B4AD233008BE9F9 /* Jobster.app */;
 			productType = "com.apple.product-type.application";
 		};
 		78AF88A12B4AD235008BE9F9 /* iosAppTests */ = {
@@ -278,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78312C202B4BF5E2006E2B1C /* ComposeView.swift in Sources */,
 				78AF88982B4AD233008BE9F9 /* ContentView.swift in Sources */,
 				78AF88962B4AD233008BE9F9 /* iosAppApp.swift in Sources */,
 			);
@@ -462,9 +466,11 @@
 					"$(inherited)",
 					"-framework",
 					SharedUI,
+					"-l",
+					sqlite3,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.andremion.jobster.ios;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Jobster;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -499,9 +505,11 @@
 					"$(inherited)",
 					"-framework",
 					SharedUI,
+					"-l",
+					sqlite3,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.andremion.jobster.ios;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Jobster;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
