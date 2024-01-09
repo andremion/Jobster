@@ -2,16 +2,15 @@ package io.github.andremion.jobster.data.remote.api
 
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.ServerException
+import io.github.andremion.jobster.data.BuildConfig
 import io.github.andremion.jobster.data.remote.model.GetJobPostingResponse
 import io.github.andremion.jobster.domain.JobRepository
 
 internal class GeminiApiImpl : GeminiApi {
 
     private val generativeModel = GenerativeModel(
-        // Use a model that's applicable for your use case (see "Implement basic use cases" below)
         modelName = "gemini-pro",
-        // Access your API key as a Build Configuration variable (see "Set up your API key" above)
-        apiKey = "AIzaSyBbk-DVoHgJdcwlY1HHTr-gjwOBIWl_YLo"
+        apiKey = BuildConfig.GeminiApiKey
     )
 
     override suspend fun getJobPosting(content: String): GetJobPostingResponse {

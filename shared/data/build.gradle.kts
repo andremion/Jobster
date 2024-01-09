@@ -51,8 +51,13 @@ kotlin {
 android {
     namespace = "io.github.andremion.jobster.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+        val geminiApiKey = project.property("geminiApiKey") ?: System.getenv("GEMINI_API_KEY")
+        buildConfigField("String", "GeminiApiKey", "\"$geminiApiKey\"")
     }
 }
 
