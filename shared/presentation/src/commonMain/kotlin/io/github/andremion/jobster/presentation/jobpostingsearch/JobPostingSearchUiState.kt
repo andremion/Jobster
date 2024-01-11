@@ -1,11 +1,13 @@
 package io.github.andremion.jobster.presentation.jobpostingsearch
 
+import io.github.andremion.jobster.domain.exception.JobPostingSearchException
+
 data class JobPostingSearchUiState(
     val url: String,
     val isSearchBarActive: Boolean,
     val isLoading: Boolean,
     val jobPosting: JobPosting?,
-    val error: Throwable?,
+    val error: JobPostingSearchException?,
 ) {
     companion object {
         val Initial = JobPostingSearchUiState(

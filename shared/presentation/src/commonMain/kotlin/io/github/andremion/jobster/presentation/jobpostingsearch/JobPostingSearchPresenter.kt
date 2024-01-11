@@ -4,6 +4,7 @@ import io.github.andremion.boomerang.AbsPresenter
 import io.github.andremion.jobster.domain.JobRepository
 import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.domain.entity.JobPosting
+import io.github.andremion.jobster.domain.exception.JobPostingSearchException
 import io.github.andremion.jobster.presentation.jobpostingsearch.mapper.transform
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -80,24 +81,26 @@ class JobPostingSearchPresenter(
                     }
                     searchJob?.cancel()
                     searchJob = presenterScope.launch {
-                        try {
+                        runCatching {
                             val jobPosting = jobRepository.searchJobPosting(url)
                             val contentIds = jobPosting.contents.map(JobPosting.Content::url)
                             val existingContentIds = jobRepository.getContentsByIds(contentIds)
                                 .firstOrNull()?.map(Job.Content::id) ?: emptyList()
+                            jobPosting.transform(existingContentIds)
+                        }.onSuccess { jobPosting ->
                             updateUiState { uiState ->
                                 uiState.copy(
                                     isSearchBarActive = false,
                                     isLoading = false,
-                                    jobPosting = jobPosting.transform(existingContentIds),
+                                    jobPosting = jobPosting,
                                 )
                             }
-                        } catch (cause: Throwable) {
+                        }.onFailure { cause ->
                             cause.printStackTrace()
                             updateUiState { uiState ->
                                 uiState.copy(
                                     isLoading = false,
-                                    error = cause,
+                                    error = cause as? JobPostingSearchException,
                                 )
                             }
                         }

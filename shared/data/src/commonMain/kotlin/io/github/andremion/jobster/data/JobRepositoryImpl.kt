@@ -13,11 +13,16 @@ import io.github.andremion.jobster.domain.JobRepository
 import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.domain.entity.JobPosting
 import io.github.andremion.jobster.domain.entity.SearchResult
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 internal class JobRepositoryImpl(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val jobPostingSearcher: JobPostingSearcher,
     private val jobDao: JobDao,
 ) : JobRepository {
@@ -42,15 +47,16 @@ internal class JobRepositoryImpl(
         jobDao.getContents()
             .map(List<ContentTable>::transform)
 
-    override suspend fun searchJobPosting(url: String): JobPosting =
+    override suspend fun searchJobPosting(url: String): JobPosting = withContext(dispatcher) {
         jobPostingSearcher.search(url)
             .transform(url)
+    }
 
-    override suspend fun save(jobPosting: JobPosting, contents: List<JobPosting.Content>) {
+    override suspend fun save(jobPosting: JobPosting, contents: List<JobPosting.Content>) = withContext(dispatcher) {
         jobDao.insert(jobPosting, contents)
     }
 
-    override suspend fun delete(jobId: String, contentId: String) {
+    override suspend fun delete(jobId: String, contentId: String) = withContext(dispatcher) {
         jobDao.delete(jobId, contentId)
     }
 

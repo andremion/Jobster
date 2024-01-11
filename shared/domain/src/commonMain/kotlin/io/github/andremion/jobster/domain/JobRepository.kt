@@ -6,15 +6,6 @@ import io.github.andremion.jobster.domain.entity.SearchResult
 import kotlinx.coroutines.flow.Flow
 
 interface JobRepository {
-    data class GeneralJobPostingSearchException(
-        override val cause: Throwable?
-    ) : Exception()
-
-    data class JobPostingSearchException(
-        override val message: String,
-        override val cause: Throwable?
-    ) : Exception(message, cause)
-
     fun getJobs(): Flow<List<Job>>
     fun getJobsWithContents(): Flow<List<Job>>
     fun getJobById(id: String): Flow<Job?>

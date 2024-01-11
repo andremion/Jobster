@@ -1,7 +1,7 @@
 package io.github.andremion.jobster.data.remote
 
 import com.fleeksoft.ksoup.Ksoup
-import io.github.andremion.jobster.domain.JobRepository
+import io.github.andremion.jobster.domain.exception.JobPostingSearchException
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
@@ -18,6 +18,6 @@ internal class WebScrapper(
                 .let(Ksoup::parse)
                 .text()
         } catch (cause: Throwable) {
-            throw JobRepository.GeneralJobPostingSearchException(cause)
+            throw JobPostingSearchException.General(cause)
         }
 }

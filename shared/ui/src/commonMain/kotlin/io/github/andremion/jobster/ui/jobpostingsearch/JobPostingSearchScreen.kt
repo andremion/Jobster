@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.compottie.LottieAnimation
 import io.github.andremion.boomerang.onUiEffect
 import io.github.andremion.jobster.di.injectPresenter
-import io.github.andremion.jobster.domain.JobRepository
+import io.github.andremion.jobster.domain.exception.JobPostingSearchException
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchPresenter
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiEffect
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiEvent
@@ -155,19 +155,23 @@ private fun ScreenContent(
                         )
                     }
                     when (val error = uiState.error) {
-                        is JobRepository.JobPostingSearchException ->
+                        is JobPostingSearchException.Server ->
                             Error(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
                                 message = error.message
                             )
 
-                        is JobRepository.GeneralJobPostingSearchException ->
+                        is JobPostingSearchException.General ->
                             Error(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
                                 message = "It seems our servers is taking too long to respond " +
                                     "or it might be an internet connection issue.\n" +
                                     "Please try again later. \uD83D\uDE4F\uD83C\uDFFB"
                             )
+
+                        null -> {
+                            // no-op
+                        }
                     }
                 },
             )
