@@ -30,6 +30,7 @@ fun MainNavHost() {
         }
         scene(route = "job_posting_search") {
             JobPostingSearchScreen(
+                onNavigateBack = mainNavigator::goBack,
                 onNavigateToUrl = ::navigateToUrl,
             )
         }

@@ -11,7 +11,7 @@ data class JobPostingSearchUiState(
 ) {
     companion object {
         val Initial = JobPostingSearchUiState(
-            url = "https://jobs.lever.co/jobandtalent/093d4d73-7985-40b9-868d-89ed023a3126",
+            url = "",
             isSearchBarActive = false,
             isLoading = false,
             jobPosting = null,

@@ -16,8 +16,7 @@ internal class GeminiApiImpl : GeminiApi() {
     override suspend fun getJobPosting(content: String): GetJobPostingResponse =
         try {
             getResponse(content) { prompt ->
-                generativeModel
-                    .generateContent(prompt)
+                generativeModel.generateContent(prompt)
                     .text.toString()
             }
         } catch (cause: ServerException) {

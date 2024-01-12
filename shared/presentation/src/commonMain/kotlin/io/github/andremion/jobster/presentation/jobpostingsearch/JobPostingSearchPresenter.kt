@@ -25,6 +25,10 @@ class JobPostingSearchPresenter(
                 }
             }
 
+            is JobPostingSearchUiEvent.BackClick -> {
+                uiEffect.tryEmit(JobPostingSearchUiEffect.NavigateBack)
+            }
+
             is JobPostingSearchUiEvent.UpdateUrl -> {
                 searchJob?.cancel()
                 updateUiState { uiState ->
@@ -58,7 +62,7 @@ class JobPostingSearchPresenter(
                 }
             }
 
-            is JobPostingSearchUiEvent.ClearSearchClick -> {
+            is JobPostingSearchUiEvent.SearchBarClearClick -> {
                 searchJob?.cancel()
                 updateUiState { uiState ->
                     uiState.copy(

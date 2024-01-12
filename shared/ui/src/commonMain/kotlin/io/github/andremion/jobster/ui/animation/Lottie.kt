@@ -44,5 +44,5 @@ fun rememberLottieData(spec: LottieCompositionSpec): String? {
 
 @OptIn(ExperimentalResourceApi::class)
 private suspend fun loadAnimationData(animationRes: LottieCompositionSpec.AnimationRes): String =
-    resource("animation/${animationRes.name}.json")
+    resource("animations/${animationRes.name}.json")
         .readBytes().decodeToString()
