@@ -53,7 +53,6 @@ import io.github.andremion.jobster.presentation.home.HomeUiState
 import io.github.andremion.jobster.ui.animation.BottomBarAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.FabAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
-import io.github.andremion.jobster.ui.animation.TopBarAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
@@ -127,14 +126,12 @@ private fun ScreenContent(
     val isNavigationBarVisible = !uiState.isSearchBarActive
     Scaffold(
         topBar = {
-            TopBarAnimatedVisibility(isVisible = true) {
-                SearchBar(
-                    query = uiState.query,
-                    isSearchBarActive = uiState.isSearchBarActive,
-                    searchResults = uiState.searchResults,
-                    onUiEvent = onUiEvent
-                )
-            }
+            SearchBar(
+                query = uiState.query,
+                isSearchBarActive = uiState.isSearchBarActive,
+                searchResults = uiState.searchResults,
+                onUiEvent = onUiEvent
+            )
         },
         floatingActionButton = {
             FabAnimatedVisibility(isVisible = isNavigationBarVisible) {
@@ -212,6 +209,9 @@ private fun SearchBar(
         active = isSearchBarActive,
         onActiveChange = { active ->
             onUiEvent(HomeUiEvent.UpdateSearchBarActive(isActive = active))
+        },
+        placeholder = {
+            Text(text = "Search content")
         },
         leadingIcon = {
             if (isSearchBarActive) {
@@ -318,7 +318,9 @@ private fun EmptySearchResults(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val composition by rememberLottieComposition(LottieCompositionSpec.AnimationRes(name = "search_results_empty"))
+            val composition by rememberLottieComposition(
+                spec = LottieCompositionSpec.AnimationRes(name = "search_results_empty")
+            )
             LottieAnimation(
                 modifier = Modifier.size(200.dp),
                 composition = composition,

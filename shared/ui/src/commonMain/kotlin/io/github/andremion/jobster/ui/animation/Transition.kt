@@ -11,19 +11,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 
 @Composable
-fun TopBarAnimatedVisibility(
-    isVisible: Boolean,
-    content: @Composable AnimatedVisibilityScope.() -> Unit,
-) {
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = fadeIn() + slideInVertically(),
-        exit = slideOutVertically() + fadeOut(),
-        content = content
-    )
-}
-
-@Composable
 fun FabAnimatedVisibility(
     isVisible: Boolean,
     content: @Composable AnimatedVisibilityScope.() -> Unit,
