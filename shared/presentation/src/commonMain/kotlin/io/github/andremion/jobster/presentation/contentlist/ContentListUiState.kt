@@ -1,8 +1,10 @@
 package io.github.andremion.jobster.presentation.contentlist
 
+import io.github.andremion.jobster.domain.entity.Job
+
 data class ContentListUiState(
     val isLoading: Boolean,
-    val contents: List<Content>?,
+    val contents: List<Job.Content>?,
     val error: Throwable?
 ) {
     companion object {
@@ -12,12 +14,4 @@ data class ContentListUiState(
             error = null
         )
     }
-
-    data class Content(
-        val id: String,
-        val title: String,
-        val description: String,
-        val url: String,
-        val image: String?,
-    )
 }

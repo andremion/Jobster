@@ -1,7 +1,5 @@
 package io.github.andremion.jobster.ui.jobdetails
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.andremion.boomerang.onUiEffect
@@ -27,6 +24,7 @@ import io.github.andremion.jobster.presentation.jobdetails.JobDetailsPresenter
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiEffect
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiEvent
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiState
+import io.github.andremion.jobster.ui.contentlist.ContentItem
 
 @Composable
 fun JobDetailsScreen(
@@ -86,32 +84,10 @@ private fun ScreenContent(
                 items = job.contents,
                 key = Job.Content::id
             ) { content ->
-                Row(
-                    modifier = Modifier
-                        .clickable {
-                            onUiEvent(JobDetailsUiEvent.ContentClick(content.url))
-                        }
-                        .padding(
-                            horizontal = 16.dp,
-                            vertical = 8.dp
-                        ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = content.title,
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
-                        Text(
-                            text = content.description,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
+                ContentItem(
+                    content = content,
+                    onClick = { onUiEvent(JobDetailsUiEvent.ContentClick(content.url)) }
+                )
             }
         }
     }

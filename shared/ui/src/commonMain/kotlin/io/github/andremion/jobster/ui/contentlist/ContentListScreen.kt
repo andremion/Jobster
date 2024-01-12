@@ -1,27 +1,18 @@
 package io.github.andremion.jobster.ui.contentlist
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.andremion.boomerang.onUiEffect
 import io.github.andremion.jobster.di.injectPresenter
+import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.presentation.contentlist.ContentListPresenter
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiEffect
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiEvent
@@ -65,38 +56,18 @@ private fun ScreenContent(
             snackbarHostState.showSnackbar(error.message ?: "Unknown error")
         }
     }
-    val items = uiState.contents
-    if (items != null) {
+    uiState.contents?.let { items ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(vertical = 16.dp),
         ) {
             items(
                 items = items,
+                key = Job.Content::id
             ) { content ->
-                Card(
-                    modifier = Modifier.clickable {
-                        onUiEvent(ContentListUiEvent.ContentClick(content.url))
-                    }
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = content.title,
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
-                        Text(
-                            text = content.description,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
+                ContentItem(
+                    content = content,
+                    onClick = { onUiEvent(ContentListUiEvent.ContentClick(content.url)) }
+                )
             }
         }
     }

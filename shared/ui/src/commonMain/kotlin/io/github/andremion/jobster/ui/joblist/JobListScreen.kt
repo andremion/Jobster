@@ -77,13 +77,10 @@ private fun ScreenContent(
             items(
                 items = items,
             ) { job ->
-                Card(
-                    modifier = Modifier.clickable {
-                        onUiEvent(JobListUiEvent.JobClick(job.id))
-                    }
-                ) {
+                Card {
                     Column(
                         modifier = Modifier
+                            .clickable { onUiEvent(JobListUiEvent.JobClick(job.id)) }
                             .padding(16.dp)
                             .fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(8.dp)

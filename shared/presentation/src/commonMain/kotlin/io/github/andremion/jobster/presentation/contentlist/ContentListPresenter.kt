@@ -2,7 +2,6 @@ package io.github.andremion.jobster.presentation.contentlist
 
 import io.github.andremion.boomerang.AbsPresenter
 import io.github.andremion.jobster.domain.JobRepository
-import io.github.andremion.jobster.presentation.contentlist.mapper.transform
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -23,7 +22,7 @@ class ContentListPresenter(
                         updateUiState { uiState ->
                             uiState.copy(
                                 isLoading = false,
-                                contents = contents.transform(),
+                                contents = contents,
                                 error = null
                             )
                         }
