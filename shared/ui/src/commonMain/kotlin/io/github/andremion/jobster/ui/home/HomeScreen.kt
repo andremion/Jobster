@@ -153,11 +153,10 @@ private fun ScreenContent(
         bottomBar = {
             BottomBarAnimatedVisibility(isVisible = isNavigationBarVisible) {
                 NavigationBar {
-//                    val navBackStackEntry by navigator.currentBackStackEntryAsState()
                     val navBackStackEntry by navigator.currentEntry.collectAsState(null)
                     val currentRoute = navBackStackEntry?.route
                     NavigationItem.entries.forEach { item ->
-                        val isSelected = currentRoute?.route == item.route
+                        val isSelected = currentRoute?.route?.contains(item.route) == true
                         NavigationBarItem(
                             icon = {
                                 Icon(
