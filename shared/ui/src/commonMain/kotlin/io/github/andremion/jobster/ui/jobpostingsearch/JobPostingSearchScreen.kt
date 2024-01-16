@@ -59,6 +59,7 @@ import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearc
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchViewModel
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
+import io.github.andremion.jobster.ui.component.BoxWithBackground
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
@@ -94,7 +95,6 @@ fun JobPostingSearchScreen(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ScreenContent(
     uiState: JobPostingSearchUiState,
@@ -115,14 +115,9 @@ private fun ScreenContent(
             )
         },
     ) { innerPadding ->
-        Box(
+        BoxWithBackground(
             modifier = Modifier.fillMaxSize(),
         ) {
-            Image(
-                modifier = Modifier.align(Alignment.Center),
-                painter = painterResource("images/bg_gemini.png"),
-                contentDescription = "Background"
-            )
             uiState.jobPosting?.let { jobPosting ->
                 LazyColumn(
                     modifier = Modifier

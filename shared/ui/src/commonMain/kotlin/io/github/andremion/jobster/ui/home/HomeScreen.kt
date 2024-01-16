@@ -54,6 +54,7 @@ import io.github.andremion.jobster.ui.animation.BottomBarAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.FabAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
+import io.github.andremion.jobster.ui.component.BoxWithBackground
 import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
 import kotlinx.coroutines.flow.launchIn
@@ -178,10 +179,14 @@ private fun ScreenContent(
             }
         }
     ) { innerPadding ->
-        HomeNavHost(
-            modifier = Modifier.padding(innerPadding),
-            navigator = navigator,
-        )
+        BoxWithBackground(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            HomeNavHost(
+                modifier = Modifier.padding(innerPadding),
+                navigator = navigator,
+            )
+        }
     }
 }
 
