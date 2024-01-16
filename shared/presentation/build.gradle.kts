@@ -19,9 +19,9 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.shared.domain)
 
+            implementation(libs.precompose.viewmodel)
             implementation(libs.kotlinx.coroutines)
             implementation(libs.koin.core)
-            implementation(libs.andremion.boomerang)
         }
     }
 }

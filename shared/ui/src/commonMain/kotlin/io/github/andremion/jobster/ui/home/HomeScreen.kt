@@ -43,19 +43,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.compottie.LottieAnimation
 import io.github.alexzhirkevich.compottie.LottieConstants
-import io.github.andremion.boomerang.onUiEffect
-import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.domain.entity.SearchResult
-import io.github.andremion.jobster.presentation.home.HomePresenter
 import io.github.andremion.jobster.presentation.home.HomeUiEffect
 import io.github.andremion.jobster.presentation.home.HomeUiEvent
 import io.github.andremion.jobster.presentation.home.HomeUiState
+import io.github.andremion.jobster.presentation.home.HomeViewModel
 import io.github.andremion.jobster.ui.animation.BottomBarAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.FabAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 
 private enum class NavigationItem(
@@ -85,13 +86,18 @@ fun HomeScreen(
     onNavigateToJobDetails: (jobId: String) -> Unit,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter(HomePresenter::class)
+    val viewModel = koinViewModel(HomeViewModel::class)
 
-    LaunchedEffect(presenter) {
+    val uiState by viewModel.uiState.collectAsState()
 
-        presenter.onUiEvent(HomeUiEvent.Init)
+    ScreenContent(
+        navigator = navigator,
+        uiState = uiState,
+        onUiEvent = viewModel::onUiEvent,
+    )
 
-        presenter.onUiEffect { uiEffect ->
+    LaunchedEffect(viewModel) {
+        viewModel.uiEffect.onEach { uiEffect ->
             when (uiEffect) {
                 is HomeUiEffect.NavigateToJobPostingSearch -> {
                     onNavigateToJobPostingSearch()
@@ -105,16 +111,8 @@ fun HomeScreen(
                     onNavigateToUrl(uiEffect.url)
                 }
             }
-        }
+        }.launchIn(this)
     }
-
-    val uiState by presenter.uiState.collectAsState()
-
-    ScreenContent(
-        navigator = navigator,
-        uiState = uiState,
-        onUiEvent = presenter::onUiEvent,
-    )
 }
 
 @Composable

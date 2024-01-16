@@ -1,37 +1,44 @@
 package io.github.andremion.jobster.presentation.jobpostingsearch
 
-import io.github.andremion.boomerang.AbsPresenter
 import io.github.andremion.jobster.domain.JobRepository
 import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.domain.entity.JobPosting
 import io.github.andremion.jobster.domain.exception.JobPostingSearchException
+import io.github.andremion.jobster.presentation.AbsViewModel
 import io.github.andremion.jobster.presentation.jobpostingsearch.mapper.transform
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
-class JobPostingSearchPresenter(
+class JobPostingSearchViewModel(
     private val jobRepository: JobRepository,
-) : AbsPresenter<JobPostingSearchUiState, JobPostingSearchUiEvent, JobPostingSearchUiEffect>(JobPostingSearchUiState.Initial) {
+) : AbsViewModel<JobPostingSearchUiState, JobPostingSearchUiEvent, JobPostingSearchUiEffect>(
+    initialUiState = JobPostingSearchUiState()
+) {
 
     private var searchJob: kotlinx.coroutines.Job? = null
+
+    init {
+        mutableUiState.update { uiState ->
+            uiState.copy(
+                isSearchBarActive = true,
+            )
+        }
+    }
 
     override fun onUiEvent(uiEvent: JobPostingSearchUiEvent) {
         when (uiEvent) {
             is JobPostingSearchUiEvent.Init -> {
-                updateUiState { uiState ->
-                    uiState.copy(
-                        isSearchBarActive = true,
-                    )
-                }
             }
 
             is JobPostingSearchUiEvent.BackClick -> {
-                uiEffect.tryEmit(JobPostingSearchUiEffect.NavigateBack)
+                mutableUiEffect.tryEmit(JobPostingSearchUiEffect.NavigateBack)
             }
 
             is JobPostingSearchUiEvent.UpdateUrl -> {
                 searchJob?.cancel()
-                updateUiState { uiState ->
+                mutableUiState.update { uiState ->
                     uiState.copy(
                         url = uiEvent.url,
                         isLoading = false,
@@ -42,7 +49,7 @@ class JobPostingSearchPresenter(
 
             is JobPostingSearchUiEvent.UpdateSearchBarActive -> {
                 searchJob?.cancel()
-                updateUiState { uiState ->
+                mutableUiState.update { uiState ->
                     uiState.copy(
                         isSearchBarActive = uiEvent.isActive,
                         isLoading = false,
@@ -53,7 +60,7 @@ class JobPostingSearchPresenter(
 
             is JobPostingSearchUiEvent.SearchBarBackClick -> {
                 searchJob?.cancel()
-                updateUiState { uiState ->
+                mutableUiState.update { uiState ->
                     uiState.copy(
                         isSearchBarActive = false,
                         isLoading = false,
@@ -64,7 +71,7 @@ class JobPostingSearchPresenter(
 
             is JobPostingSearchUiEvent.SearchBarClearClick -> {
                 searchJob?.cancel()
-                updateUiState { uiState ->
+                mutableUiState.update { uiState ->
                     uiState.copy(
                         url = "",
                         isLoading = false,
@@ -76,7 +83,7 @@ class JobPostingSearchPresenter(
             is JobPostingSearchUiEvent.SearchClick -> {
                 val url = uiState.value.url
                 if (url.isNotBlank()) {
-                    updateUiState { uiState ->
+                    mutableUiState.update { uiState ->
                         uiState.copy(
                             isLoading = true,
                             jobPosting = null,
@@ -84,7 +91,7 @@ class JobPostingSearchPresenter(
                         )
                     }
                     searchJob?.cancel()
-                    searchJob = presenterScope.launch {
+                    searchJob = viewModelScope.launch {
                         runCatching {
                             val jobPosting = jobRepository.searchJobPosting(url)
                             val contentIds = jobPosting.contents.map(JobPosting.Content::url)
@@ -92,7 +99,7 @@ class JobPostingSearchPresenter(
                                 .firstOrNull()?.map(Job.Content::id) ?: emptyList()
                             jobPosting.transform(existingContentIds)
                         }.onSuccess { jobPosting ->
-                            updateUiState { uiState ->
+                            mutableUiState.update { uiState ->
                                 uiState.copy(
                                     isSearchBarActive = false,
                                     isLoading = false,
@@ -101,7 +108,7 @@ class JobPostingSearchPresenter(
                             }
                         }.onFailure { cause ->
                             cause.printStackTrace()
-                            updateUiState { uiState ->
+                            mutableUiState.update { uiState ->
                                 uiState.copy(
                                     isLoading = false,
                                     error = cause as? JobPostingSearchException,
@@ -113,11 +120,11 @@ class JobPostingSearchPresenter(
             }
 
             is JobPostingSearchUiEvent.ContentTitleClick -> {
-                uiEffect.tryEmit(JobPostingSearchUiEffect.NavigateToUrl(uiEvent.url))
+                mutableUiEffect.tryEmit(JobPostingSearchUiEffect.NavigateToUrl(uiEvent.url))
             }
 
             is JobPostingSearchUiEvent.ContentSwitchClick -> {
-                presenterScope.launch {
+                viewModelScope.launch {
                     val state = uiState.value
                     val jobPosting = requireNotNull(state.jobPosting)
                     if (uiEvent.isChecked) {
@@ -131,7 +138,7 @@ class JobPostingSearchPresenter(
                             contentId = uiEvent.content.url
                         )
                     }
-                    updateUiState { uiState ->
+                    mutableUiState.update { uiState ->
                         uiState.copy(
                             jobPosting = jobPosting.copy(
                                 contents = jobPosting.contents.map { content ->

@@ -11,6 +11,6 @@ internal fun List<Job>.transform(): List<JobListUiState.Job> =
             company = job.company,
             url = job.url,
             logo = job.logo,
-            contents = job.contents.joinToString(transform = Job.Content::title)
+            content = job.contents.joinToString(transform = Job.Content::title)
         )
     }

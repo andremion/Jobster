@@ -21,37 +21,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.github.andremion.boomerang.onUiEffect
-import io.github.andremion.jobster.di.injectPresenter
-import io.github.andremion.jobster.presentation.joblist.JobListPresenter
 import io.github.andremion.jobster.presentation.joblist.JobListUiEffect
 import io.github.andremion.jobster.presentation.joblist.JobListUiEvent
 import io.github.andremion.jobster.presentation.joblist.JobListUiState
+import io.github.andremion.jobster.presentation.joblist.JobListViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun JobListScreen(
     onNavigateToJobDetails: (jobId: String) -> Unit,
 ) {
-    val presenter = injectPresenter(JobListPresenter::class)
+    val viewModel = koinViewModel(JobListViewModel::class)
 
-    LaunchedEffect(presenter) {
-        presenter.onUiEvent(JobListUiEvent.Init)
+    val uiState by viewModel.uiState.collectAsState()
 
-        presenter.onUiEffect { uiEffect ->
+    ScreenContent(
+        uiState = uiState,
+        onUiEvent = viewModel::onUiEvent,
+    )
+
+    LaunchedEffect(viewModel) {
+        viewModel.uiEffect.onEach { uiEffect ->
             when (uiEffect) {
                 is JobListUiEffect.NavigateToJobDetails -> {
                     onNavigateToJobDetails(uiEffect.jobId)
                 }
             }
-        }
+        }.launchIn(this)
     }
-
-    val uiState by presenter.uiState.collectAsState()
-
-    ScreenContent(
-        uiState = uiState,
-        onUiEvent = presenter::onUiEvent,
-    )
 }
 
 @Composable
@@ -93,7 +92,7 @@ private fun ScreenContent(
                             text = job.company,
                             style = MaterialTheme.typography.bodySmall
                         )
-                        job.contents?.let { contents ->
+                        job.content?.let { contents ->
                             Text(
                                 text = contents,
                                 style = MaterialTheme.typography.bodyMedium,

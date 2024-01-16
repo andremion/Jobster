@@ -17,40 +17,42 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.andremion.boomerang.onUiEffect
-import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.domain.entity.Job
-import io.github.andremion.jobster.presentation.jobdetails.JobDetailsPresenter
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiEffect
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiEvent
 import io.github.andremion.jobster.presentation.jobdetails.JobDetailsUiState
+import io.github.andremion.jobster.presentation.jobdetails.JobDetailsViewModel
 import io.github.andremion.jobster.ui.contentlist.ContentItem
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.koin.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun JobDetailsScreen(
     jobId: String,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter(JobDetailsPresenter::class)
+    val viewModel = koinViewModel(JobDetailsViewModel::class) {
+        parametersOf(jobId)
+    }
 
-    LaunchedEffect(presenter) {
-        presenter.onUiEvent(JobDetailsUiEvent.Init(jobId))
+    val uiState by viewModel.uiState.collectAsState()
 
-        presenter.onUiEffect { uiEffect ->
+    ScreenContent(
+        uiState = uiState,
+        onUiEvent = viewModel::onUiEvent,
+    )
+
+    LaunchedEffect(viewModel) {
+        viewModel.uiEffect.onEach { uiEffect ->
             when (uiEffect) {
                 is JobDetailsUiEffect.NavigateToUrl -> {
                     onNavigateToUrl(uiEffect.url)
                 }
             }
-        }
+        }.launchIn(this)
     }
-
-    val uiState by presenter.uiState.collectAsState()
-
-    ScreenContent(
-        uiState = uiState,
-        onUiEvent = presenter::onUiEvent,
-    )
 }
 
 @Composable

@@ -38,10 +38,11 @@ kotlin {
             implementation(compose.components.resources)
 
             implementation(libs.precompose)
+            implementation(libs.precompose.viewmodel)
+            implementation(libs.precompose.koin)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.coil)
-            implementation(libs.andremion.boomerang)
             implementation(libs.compottie)
         }
         androidMain.dependencies {

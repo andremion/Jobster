@@ -52,15 +52,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.compottie.LottieAnimation
-import io.github.andremion.boomerang.onUiEffect
-import io.github.andremion.jobster.di.injectPresenter
 import io.github.andremion.jobster.domain.exception.JobPostingSearchException
-import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchPresenter
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiEffect
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiEvent
 import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchUiState
+import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearchViewModel
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -69,12 +70,17 @@ fun JobPostingSearchScreen(
     onNavigateBack: () -> Unit,
     onNavigateToUrl: (url: String) -> Unit,
 ) {
-    val presenter = injectPresenter(JobPostingSearchPresenter::class)
+    val viewModel = koinViewModel(JobPostingSearchViewModel::class)
 
-    LaunchedEffect(presenter) {
-        presenter.onUiEvent(JobPostingSearchUiEvent.Init)
+    val uiState by viewModel.uiState.collectAsState()
 
-        presenter.onUiEffect { uiEffect ->
+    ScreenContent(
+        uiState = uiState,
+        onUiEvent = viewModel::onUiEvent,
+    )
+
+    LaunchedEffect(uiState) {
+        viewModel.uiEffect.onEach { uiEffect ->
             when (uiEffect) {
                 is JobPostingSearchUiEffect.NavigateBack -> {
                     onNavigateBack()
@@ -84,15 +90,8 @@ fun JobPostingSearchScreen(
                     onNavigateToUrl(uiEffect.url)
                 }
             }
-        }
+        }.launchIn(this)
     }
-
-    val uiState by presenter.uiState.collectAsState()
-
-    ScreenContent(
-        uiState = uiState,
-        onUiEvent = presenter::onUiEvent,
-    )
 }
 
 @OptIn(ExperimentalResourceApi::class)
@@ -315,9 +314,8 @@ private fun SearchBar(
                     is JobPostingSearchException.General ->
                         Error(
                             modifier = Modifier.align(Alignment.CenterHorizontally),
-                            message = "It seems to be an internet connection issue.\n" +
-                                "Please make sure the URL is correct\n" +
-                                "and try again later. \uD83D\uDE4F\uD83C\uDFFB"
+                            message = "It might be an internet connection issue\n" +
+                                "or the URL you entered is incorrect."
                         )
 
                     null -> {
