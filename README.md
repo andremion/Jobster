@@ -21,7 +21,7 @@ Icon by <a href="https://freeicons.io/profile/489957">Sorembadesignz</a> on <a h
 
 ## MIT License
 
-    Copyright (c) [2023] André Luiz Oliveira Rêgo
+    Copyright (c) [2024] André Luiz Oliveira Rêgo
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

@@ -5,8 +5,10 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -243,57 +245,61 @@ private fun SearchBar(
             null
         },
     ) {
-        EmptySearchResults(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            isVisible = searchResults?.isEmpty() == true
-        )
-        if (searchResults != null) {
-            LazyColumn {
-                items(searchResults, key = SearchResult::id) { searchResult ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onUiEvent(
-                                    HomeUiEvent.SearchResultClick(
-                                        type = searchResult.type,
-                                        id = searchResult.id,
-                                        url = searchResult.url,
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            EmptySearchResults(
+                modifier = Modifier.align(Alignment.TopCenter),
+                isVisible = searchResults?.isEmpty() == true
+            )
+            if (searchResults != null) {
+                LazyColumn {
+                    items(searchResults, key = SearchResult::id) { searchResult ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onUiEvent(
+                                        HomeUiEvent.SearchResultClick(
+                                            type = searchResult.type,
+                                            id = searchResult.id,
+                                            url = searchResult.url,
+                                        )
                                     )
-                                )
-                            }
-                            .padding(8.dp)
-                    ) {
-                        when (searchResult.type) {
-                            SearchResult.Type.Job -> {
-                                Icon(
-                                    modifier = Modifier.padding(end = 8.dp),
-                                    imageVector = NavigationItem.Jobs.unselectedIcon,
-                                    contentDescription = "Job",
-                                )
-                            }
+                                }
+                                .padding(8.dp)
+                        ) {
+                            when (searchResult.type) {
+                                SearchResult.Type.Job -> {
+                                    Icon(
+                                        modifier = Modifier.padding(end = 8.dp),
+                                        imageVector = NavigationItem.Jobs.unselectedIcon,
+                                        contentDescription = "Job",
+                                    )
+                                }
 
-                            SearchResult.Type.Content -> {
-                                Icon(
-                                    modifier = Modifier.padding(end = 8.dp),
-                                    imageVector = NavigationItem.Contents.unselectedIcon,
-                                    contentDescription = "Content",
+                                SearchResult.Type.Content -> {
+                                    Icon(
+                                        modifier = Modifier.padding(end = 8.dp),
+                                        imageVector = NavigationItem.Contents.unselectedIcon,
+                                        contentDescription = "Content",
+                                    )
+                                }
+                            }
+                            Column {
+                                Text(
+                                    text = searchResult.title,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                                Text(
+                                    text = searchResult.description,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
                                 )
                             }
-                        }
-                        Column {
-                            Text(
-                                text = searchResult.title,
-                                style = MaterialTheme.typography.bodyLarge,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                            Text(
-                                text = searchResult.description,
-                                style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                            )
                         }
                     }
                 }

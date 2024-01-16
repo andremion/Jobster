@@ -286,45 +286,44 @@ private fun SearchBar(
                 )
             }
         },
-        content = {
-            SearchBarContent(
-                isGeminiLogoVisible = uiState.error == null
-            ) {
-                if (uiState.isLoading) {
-                    LinearProgressIndicator(
-                        modifier = Modifier.fillMaxWidth()
+    ) {
+        SearchBarContent(
+            isGeminiLogoVisible = uiState.error == null
+        ) {
+            if (uiState.isLoading) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth()
+                )
+                val composition by rememberLottieComposition(
+                    spec = LottieCompositionSpec.AnimationRes(name = "job_posting_search_loading")
+                )
+                LottieAnimation(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(200.dp),
+                    composition = composition,
+                )
+            }
+            when (val error = uiState.error) {
+                is JobPostingSearchException.Server ->
+                    Error(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        message = error.message
                     )
-                    val composition by rememberLottieComposition(
-                        spec = LottieCompositionSpec.AnimationRes(name = "job_posting_search_loading")
-                    )
-                    LottieAnimation(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .size(200.dp),
-                        composition = composition,
-                    )
-                }
-                when (val error = uiState.error) {
-                    is JobPostingSearchException.Server ->
-                        Error(
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            message = error.message
-                        )
 
-                    is JobPostingSearchException.General ->
-                        Error(
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            message = "It might be an internet connection issue\n" +
-                                "or the URL you entered is incorrect."
-                        )
+                is JobPostingSearchException.General ->
+                    Error(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        message = "It might be an internet connection issue\n" +
+                            "or the URL you entered is incorrect."
+                    )
 
-                    null -> {
-                        // no-op
-                    }
+                null -> {
+                    // no-op
                 }
             }
-        },
-    )
+        }
+    }
 }
 
 @OptIn(ExperimentalResourceApi::class)
