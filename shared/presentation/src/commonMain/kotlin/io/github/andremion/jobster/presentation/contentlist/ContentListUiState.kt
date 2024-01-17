@@ -5,5 +5,4 @@ import io.github.andremion.jobster.domain.entity.Job
 data class ContentListUiState(
     val isLoading: Boolean = false,
     val contents: List<Job.Content>? = null,
-    val error: Throwable? = null
 )

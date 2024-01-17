@@ -5,11 +5,13 @@ import io.github.andremion.jobster.domain.entity.SearchResult
 import io.github.andremion.jobster.presentation.AbsViewModel
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class HomeViewModel(
@@ -19,6 +21,12 @@ class HomeViewModel(
 ) {
 
     init {
+        viewModelScope.launch {
+            val jobs = jobRepository.getJobs().firstOrNull() ?: emptyList()
+            mutableUiState.update { uiState ->
+                uiState.copy(isEmptyHintVisible = jobs.isEmpty())
+            }
+        }
         uiState
             .map { state -> state.query }
             .debounce(QueryDebounceTimeoutInMillis)

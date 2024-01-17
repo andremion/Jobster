@@ -11,13 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -58,15 +56,7 @@ private fun ScreenContent(
     uiState: JobListUiState,
     onUiEvent: (JobListUiEvent) -> Unit,
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val error = uiState.error
-    LaunchedEffect(error) {
-        if (error != null) {
-            snackbarHostState.showSnackbar(error.message ?: "Unknown error")
-        }
-    }
-    val items = uiState.jobs
-    if (items != null) {
+    uiState.jobs?.let { items ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),

@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,12 +18,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.PostAdd
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Segment
 import androidx.compose.material.icons.rounded.Sort
 import androidx.compose.material.icons.rounded.Work
 import androidx.compose.material.icons.rounded.WorkOutline
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -51,7 +54,7 @@ import io.github.andremion.jobster.presentation.home.HomeUiEvent
 import io.github.andremion.jobster.presentation.home.HomeUiState
 import io.github.andremion.jobster.presentation.home.HomeViewModel
 import io.github.andremion.jobster.ui.animation.BottomBarAnimatedVisibility
-import io.github.andremion.jobster.ui.animation.FabAnimatedVisibility
+import io.github.andremion.jobster.ui.animation.FadeAnimatedVisibility
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.component.BoxWithBackground
@@ -135,7 +138,9 @@ private fun ScreenContent(
             )
         },
         floatingActionButton = {
-            FabAnimatedVisibility(isVisible = isNavigationBarVisible) {
+            FadeAnimatedVisibility(
+                isVisible = isNavigationBarVisible
+            ) {
                 ExtendedFloatingActionButton(
                     onClick = {
                         onUiEvent(HomeUiEvent.AddContentClick)
@@ -186,6 +191,45 @@ private fun ScreenContent(
                 modifier = Modifier.padding(innerPadding),
                 navigator = navigator,
             )
+            EmptyHint(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart)
+                    .padding(bottom = FabSize + FabMargin),
+                isVisible = uiState.isEmptyHintVisible
+            )
+        }
+    }
+}
+
+private val FabSize = 56.dp
+private val FabMargin = 16.dp
+
+@Composable
+private fun EmptyHint(
+    modifier: Modifier,
+    isVisible: Boolean
+) {
+    FadeAnimatedVisibility(
+        modifier = modifier,
+        isVisible = isVisible,
+    ) {
+        Card {
+            Row(
+                modifier = Modifier
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Lightbulb,
+                    contentDescription = "Hint",
+                )
+                Text(
+                    text = "Start by adding content from job postings",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
         }
     }
 }

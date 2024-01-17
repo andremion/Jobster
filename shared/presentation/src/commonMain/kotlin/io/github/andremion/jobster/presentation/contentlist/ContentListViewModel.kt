@@ -28,7 +28,6 @@ class ContentListViewModel(
                     uiState.copy(
                         isLoading = false,
                         contents = contents,
-                        error = null
                     )
                 }
             }

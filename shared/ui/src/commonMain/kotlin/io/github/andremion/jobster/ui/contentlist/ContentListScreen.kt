@@ -3,12 +3,10 @@ package io.github.andremion.jobster.ui.contentlist
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiEffect
@@ -48,13 +46,6 @@ private fun ScreenContent(
     uiState: ContentListUiState,
     onUiEvent: (ContentListUiEvent) -> Unit,
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val error = uiState.error
-    LaunchedEffect(error) {
-        if (error != null) {
-            snackbarHostState.showSnackbar(error.message ?: "Unknown error")
-        }
-    }
     uiState.contents?.let { items ->
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp),

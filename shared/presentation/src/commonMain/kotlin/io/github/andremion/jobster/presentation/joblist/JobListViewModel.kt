@@ -29,7 +29,6 @@ class JobListViewModel(
                     uiState.copy(
                         isLoading = false,
                         jobs = jobs.transform(),
-                        error = null
                     )
                 }
             }
