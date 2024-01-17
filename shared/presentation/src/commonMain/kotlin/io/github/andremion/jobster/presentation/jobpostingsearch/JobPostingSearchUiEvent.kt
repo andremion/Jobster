@@ -1,7 +1,6 @@
 package io.github.andremion.jobster.presentation.jobpostingsearch
 
 sealed interface JobPostingSearchUiEvent {
-    data object Init : JobPostingSearchUiEvent
     data object BackClick : JobPostingSearchUiEvent
     data class UpdateUrl(val url: String) : JobPostingSearchUiEvent
     data class UpdateSearchBarActive(val isActive: Boolean) : JobPostingSearchUiEvent

@@ -6,6 +6,7 @@ import io.github.andremion.jobster.domain.entity.JobPosting
 import io.github.andremion.jobster.domain.exception.JobPostingSearchException
 import io.github.andremion.jobster.presentation.AbsViewModel
 import io.github.andremion.jobster.presentation.jobpostingsearch.mapper.transform
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,18 +21,18 @@ class JobPostingSearchViewModel(
     private var searchJob: kotlinx.coroutines.Job? = null
 
     init {
-        mutableUiState.update { uiState ->
-            uiState.copy(
-                isSearchBarActive = true,
-            )
+        viewModelScope.launch {
+            delay(300) // Give a time to transitioning before focusing the search bar
+            mutableUiState.update { uiState ->
+                uiState.copy(
+                    isSearchBarActive = true,
+                )
+            }
         }
     }
 
     override fun onUiEvent(uiEvent: JobPostingSearchUiEvent) {
         when (uiEvent) {
-            is JobPostingSearchUiEvent.Init -> {
-            }
-
             is JobPostingSearchUiEvent.BackClick -> {
                 mutableUiEffect.tryEmit(JobPostingSearchUiEffect.NavigateBack)
             }
