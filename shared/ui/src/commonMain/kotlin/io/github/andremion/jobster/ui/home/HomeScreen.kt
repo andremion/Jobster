@@ -260,7 +260,7 @@ private fun SearchBar(
             onUiEvent(HomeUiEvent.UpdateSearchBarActive(isActive = active))
         },
         placeholder = {
-            Text(text = "Search content")
+            Text(text = "Search saved content")
         },
         leadingIcon = {
             if (isSearchBarActive) {
