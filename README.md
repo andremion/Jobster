@@ -2,12 +2,25 @@
 
 # Jobster
 
-A proof of concept of [Multiplatform Compose](https://www.jetbrains.com/lp/compose-multiplatform/) targeting Android and iOS.
+A proof of concept of [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) targeting Android and iOS.
 
 The app helps you discover and access content links from job postings of your interest using [Google Gemini API](https://ai.google.dev/).
 
-## Multiplatform libraries
+## Gemini API
 
+This is the only one that is NOT a Multiplatform Kotlin library.
+There are two implementations, one for Android and one for iOS.
+
+### Available regions
+
+The Gemini API is currently available in [180+ countries](https://ai.google.dev/available_regions#available_regions), check out the documentation to learn more.
+
+## TODO
+- Multiplatform string resources.
+
+## Other multiplatform libraries used
+
+- [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform): A declarative framework based on Jetpack Compose and developed by JetBrains and open-source contributors for sharing UIs across multiple platforms with Kotlin.
 - [PreCompose](https://github.com/Tlaster/PreCompose): Supports navigation and view models providing similar APIs to Jetpack ones.
 - [Compottie](https://github.com/alexzhirkevich/compottie): A port of [Lottie Compose](https://github.com/airbnb/lottie/blob/master/android-compose.md).
 - [SQLdelight](https://github.com/cashapp/sqldelight): Generates typesafe Kotlin APIs from SQL statements.
