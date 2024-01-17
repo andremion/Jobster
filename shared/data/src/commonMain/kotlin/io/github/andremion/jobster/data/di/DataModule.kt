@@ -4,7 +4,9 @@ import io.github.andremion.jobster.data.JobRepositoryImpl
 import io.github.andremion.jobster.data.local.db.JobDao
 import io.github.andremion.jobster.data.local.db.JobsterDatabase
 import io.github.andremion.jobster.data.remote.JobPostingSearcher
+import io.github.andremion.jobster.data.remote.WebScrapper
 import io.github.andremion.jobster.domain.JobRepository
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.dsl.module
@@ -27,6 +29,12 @@ object DataModule {
                 jobQueries = get(),
                 contentQueries = get(),
                 jobContentQueries = get(),
+            )
+        }
+
+        factory {
+            WebScrapper(
+                client = HttpClient()
             )
         }
 

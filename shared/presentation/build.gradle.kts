@@ -10,7 +10,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "PresentationShared"
+            baseName = "SharedPresentation"
             isStatic = true
         }
     }
@@ -19,9 +19,9 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.shared.domain)
 
+            implementation(libs.precompose.viewmodel)
             implementation(libs.kotlinx.coroutines)
             implementation(libs.koin.core)
-            implementation(libs.andremion.boomerang)
         }
     }
 }

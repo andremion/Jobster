@@ -3,7 +3,6 @@ package io.github.andremion.jobster.presentation.home
 import io.github.andremion.jobster.domain.entity.SearchResult
 
 sealed interface HomeUiEvent {
-    data object Init : HomeUiEvent
     data object AddContentClick : HomeUiEvent
     data class UpdateQuery(val query: String) : HomeUiEvent
     data class UpdateSearchBarActive(val isActive: Boolean) : HomeUiEvent

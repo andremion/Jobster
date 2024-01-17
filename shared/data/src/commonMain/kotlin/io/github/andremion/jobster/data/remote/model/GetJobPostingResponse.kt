@@ -2,8 +2,9 @@ package io.github.andremion.jobster.data.remote.model
 
 import kotlinx.serialization.Serializable
 
+// Not internal because it is used in Swift too
 @Serializable
-internal data class GetJobPostingResponse(
+data class GetJobPostingResponse(
     val role: String,
     val company: String,
     val logo: String?,

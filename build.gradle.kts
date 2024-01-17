@@ -5,13 +5,5 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-}
-
-subprojects {
-    configurations {
-        all {
-            // Fix transitive dependencies issues between generativeai and skrape
-            exclude(group = "org.slf4j", module = "slf4j-android")
-        }
-    }
+    alias(libs.plugins.jetbrains.compose) apply false
 }

@@ -9,7 +9,7 @@ internal class JobPostingSearcher(
 ) {
 
     suspend fun search(url: String): GetJobPostingResponse =
-        webScrapper.scrap(url).let { document ->
-            geminiApi.getJobPosting(document.content)
+        webScrapper.scrap(url).let { text ->
+            geminiApi.getJobPosting(text)
         }
 }
