@@ -6,17 +6,25 @@ A proof of concept of [Compose Multiplatform](https://www.jetbrains.com/lp/compo
 
 The app helps you discover and access content links from job postings of your interest using [Google Gemini API](https://ai.google.dev/).
 
+## Preview
+
+Android|iOS
+-|-
+<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/12762356/297455947-b673c7fb-7601-4f06-b960-8822db89ac37.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T165737Z&X-Amz-Expires=300&X-Amz-Signature=61b0a3d54fe62d77143b5b9f528442e4d6081aff9aa464b745e8c8a1ab30ba2b&X-Amz-SignedHeaders=host&actor_id=12762356&key_id=0&repo_id=738156317" autoplay />|<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/12762356/297455981-746185d4-0e50-412d-9051-d83cd5afa729.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T165904Z&X-Amz-Expires=300&X-Amz-Signature=cbf6fa23ac98a3fcb27dabc92a1fad4a7e1bdc5d33a11e409c8c9ced4744e979&X-Amz-SignedHeaders=host&actor_id=12762356&key_id=0&repo_id=738156317" autoplay />
+
+The app was almost 100% built using multiplatform libraries, including the UI.
+
 ## Gemini API
 
 This is the only one that is NOT a Multiplatform Kotlin library.
-There are two implementations, one for Android and one for iOS.
+There are two implementations, one for [Android](shared/data/src/androidMain/kotlin/io/github/andremion/jobster/data/remote/api/GeminiApiImpl.kt) and one for [iOS](iosApp/iosApp/data/GeminiApiImpl.swift).
 
 ### Available regions
 
 The Gemini API is currently available in [180+ countries](https://ai.google.dev/available_regions#available_regions), check out the documentation to learn more.
 
 ## TODO
-- Multiplatform string resources.
+- Make the text strings multiplatform resources.
 
 ## Other multiplatform libraries used
 
