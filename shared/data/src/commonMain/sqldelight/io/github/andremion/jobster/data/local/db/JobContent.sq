@@ -12,6 +12,6 @@ delete:
 DELETE FROM jobContentTable
 WHERE jobId = :jobId AND contentId = :contentId;
 
-countByContentId:
+countByJobId:
 SELECT COUNT() FROM jobContentTable
-WHERE contentId = :contentId;
+WHERE jobId = :jobId;

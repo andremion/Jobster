@@ -38,9 +38,9 @@ internal class JobDao(
         withContext(dispatcher) {
             jobQueries.transaction {
                 jobContentQueries.delete(jobId, contentId)
-                if (jobContentQueries.countByContentId(contentId).executeAsOne() == 0L) {
+                contentQueries.deleteById(contentId)
+                if (jobContentQueries.countByJobId(jobId).executeAsOne() == 0L) {
                     jobQueries.deleteById(jobId)
-                    contentQueries.deleteById(contentId)
                 }
             }
         }
