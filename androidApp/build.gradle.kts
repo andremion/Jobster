@@ -21,9 +21,26 @@ android {
         }
     }
 
+    signingConfigs {
+        val default = "NOT_PROVIDED"
+        val releaseKeyStoreFile: String? by project
+        val releaseKeyStoreAlias: String? by project
+        val releaseKeyStorePassword: String? by project
+        create("release") {
+            storeFile = file(releaseKeyStoreFile ?: System.getenv("releaseKeyStoreFile") ?: default)
+            storePassword = releaseKeyStorePassword ?: System.getenv("releaseKeyStorePassword") ?: default
+            keyAlias = releaseKeyStoreAlias ?: System.getenv("releaseKeyStoreAlias") ?: default
+            keyPassword = releaseKeyStorePassword ?: System.getenv("releaseKeyStorePassword") ?: default
+        }
+    }
+
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
-            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
