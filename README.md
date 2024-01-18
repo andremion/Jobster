@@ -1,5 +1,7 @@
 <img alt="Icon" src="https://github.com/andremion/Jobster/assets/12762356/c841549c-1bd6-4640-9cc4-24bd42711ead" width=100 align="left" hspace="1" vspace="1">
 
+<a target=_blank href='https://play.google.com/store/apps/details?id=io.github.andremion.jobster.android&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=48 align=right /></a>
+
 # Jobster
 
 A proof of concept of [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) targeting Android and iOS.
@@ -10,9 +12,9 @@ The app helps you discover and access content links from job postings of your in
 
 Android|iOS
 -|-
-<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/12762356/297455947-b673c7fb-7601-4f06-b960-8822db89ac37.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T165737Z&X-Amz-Expires=300&X-Amz-Signature=61b0a3d54fe62d77143b5b9f528442e4d6081aff9aa464b745e8c8a1ab30ba2b&X-Amz-SignedHeaders=host&actor_id=12762356&key_id=0&repo_id=738156317" autoplay />|<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/12762356/297455981-746185d4-0e50-412d-9051-d83cd5afa729.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T165904Z&X-Amz-Expires=300&X-Amz-Signature=cbf6fa23ac98a3fcb27dabc92a1fad4a7e1bdc5d33a11e409c8c9ced4744e979&X-Amz-SignedHeaders=host&actor_id=12762356&key_id=0&repo_id=738156317" autoplay />
+<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/12762356/297780536-05b28b95-eb13-4395-bbff-fe819ff2468f.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240118%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240118T145839Z&X-Amz-Expires=300&X-Amz-Signature=db6239378a1920644d50fa527aec9ad5ef08ec32f05e74bbb8a070a8e9f2b7dc&X-Amz-SignedHeaders=host&actor_id=12762356&key_id=0&repo_id=738156317" autoplay />|<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/12762356/297455981-746185d4-0e50-412d-9051-d83cd5afa729.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T165904Z&X-Amz-Expires=300&X-Amz-Signature=cbf6fa23ac98a3fcb27dabc92a1fad4a7e1bdc5d33a11e409c8c9ced4744e979&X-Amz-SignedHeaders=host&actor_id=12762356&key_id=0&repo_id=738156317" autoplay />
 
-The app was almost 100% built using multiplatform libraries, including the UI.
+The app is almost 100% built with multiplatform code, including the UI.
 
 ## Gemini API
 
