@@ -3,42 +3,43 @@ package io.github.andremion.jobster.presentation.home
 import io.github.andremion.jobster.domain.JobRepository
 import io.github.andremion.jobster.domain.entity.SearchResult
 import io.github.andremion.jobster.presentation.AbsViewModel
+import io.github.andremion.jobster.presentation.WhileSubscribed
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class HomeViewModel(
     jobRepository: JobRepository,
-) : AbsViewModel<HomeUiState, HomeUiEvent, HomeUiEffect>(
-    initialUiState = HomeUiState()
-) {
+) : AbsViewModel<HomeUiState, HomeUiEvent, HomeUiEffect>() {
 
-    init {
-        jobRepository.getJobs()
-            .map { jobs -> jobs.isEmpty() }
-            .onEach { isEmpty ->
-                mutableUiState.update { uiState ->
-                    uiState.copy(isEmptyHintVisible = isEmpty)
-                }
-            }
-            .launchIn(viewModelScope)
-        uiState
-            .map { state -> state.query }
-            .debounce(QueryDebounceTimeoutInMillis)
-            .distinctUntilChanged()
-            .flatMapLatest(jobRepository::searchForContent)
-            .onEach { results ->
-                mutableUiState.update { uiState ->
-                    uiState.copy(searchResults = results)
-                }
-            }
-            .launchIn(viewModelScope)
-    }
+    private val jobs = jobRepository.getJobs()
+    private val query = MutableStateFlow("")
+    private val isSearchBarActive = MutableStateFlow(false)
+    private val searchResults = query
+        .debounce(QueryDebounceTimeoutInMillis)
+        .distinctUntilChanged()
+        .flatMapLatest(jobRepository::searchForContent)
+
+    override val uiState: StateFlow<HomeUiState> = combine(
+        jobs, query, isSearchBarActive, searchResults
+    ) { jobs, query, isSearchBarActive, searchResults ->
+        HomeUiState(
+            isEmptyHintVisible = jobs.isEmpty(),
+            query = query,
+            isSearchBarActive = isSearchBarActive,
+            searchResults = searchResults,
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribed,
+        initialValue = HomeUiState()
+    )
 
     override fun onUiEvent(uiEvent: HomeUiEvent) {
         when (uiEvent) {
@@ -47,46 +48,27 @@ class HomeViewModel(
             }
 
             is HomeUiEvent.UpdateQuery -> {
-                mutableUiState.update { uiState ->
-                    uiState.copy(query = uiEvent.query)
-                }
+                query.update { uiEvent.query }
             }
 
             is HomeUiEvent.UpdateSearchBarActive -> {
-                mutableUiState.update { uiState ->
-                    uiState.copy(
-                        query = if (uiEvent.isActive) {
-                            uiState.query
-                        } else {
-                            ""
-                        },
-                        isSearchBarActive = uiEvent.isActive,
-                    )
-                }
+                query.update { "" }
+                isSearchBarActive.update { uiEvent.isActive }
             }
 
             is HomeUiEvent.SearchBarBackClick -> {
-                mutableUiState.update { uiState ->
-                    uiState.copy(
-                        query = "",
-                        isSearchBarActive = false
-                    )
-                }
+                query.update { "" }
+                isSearchBarActive.update { false }
             }
 
             is HomeUiEvent.ClearSearchClick -> {
-                mutableUiState.update { uiState ->
-                    uiState.copy(query = "")
-                }
+                query.update { "" }
             }
 
             is HomeUiEvent.SearchResultClick -> {
-                mutableUiState.update { uiState ->
-                    uiState.copy(
-                        query = "",
-                        isSearchBarActive = false
-                    )
-                }
+                query.update { "" }
+                isSearchBarActive.update { false }
+
                 when (uiEvent.type) {
                     SearchResult.Type.Job -> {
                         mutableUiEffect.tryEmit(

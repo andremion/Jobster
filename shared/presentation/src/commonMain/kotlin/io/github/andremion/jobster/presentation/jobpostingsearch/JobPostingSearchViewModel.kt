@@ -5,31 +5,30 @@ import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.domain.entity.JobPosting
 import io.github.andremion.jobster.domain.exception.JobPostingSearchException
 import io.github.andremion.jobster.presentation.AbsViewModel
+import io.github.andremion.jobster.presentation.WhileSubscribed
 import io.github.andremion.jobster.presentation.jobpostingsearch.mapper.transform
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class JobPostingSearchViewModel(
     private val jobRepository: JobRepository,
-) : AbsViewModel<JobPostingSearchUiState, JobPostingSearchUiEvent, JobPostingSearchUiEffect>(
-    initialUiState = JobPostingSearchUiState()
-) {
+) : AbsViewModel<JobPostingSearchUiState, JobPostingSearchUiEvent, JobPostingSearchUiEffect>() {
 
     private var searchJob: kotlinx.coroutines.Job? = null
 
-    init {
-        viewModelScope.launch {
-            delay(300) // Give a time to transitioning before focusing the search bar
-            mutableUiState.update { uiState ->
-                uiState.copy(
-                    isSearchBarActive = true,
-                )
-            }
-        }
-    }
+    private val mutableUiState = MutableStateFlow(JobPostingSearchUiState())
+
+    override val uiState: StateFlow<JobPostingSearchUiState> = mutableUiState
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed,
+            initialValue = JobPostingSearchUiState(isSearchBarActive = true)
+        )
 
     override fun onUiEvent(uiEvent: JobPostingSearchUiEvent) {
         when (uiEvent) {
