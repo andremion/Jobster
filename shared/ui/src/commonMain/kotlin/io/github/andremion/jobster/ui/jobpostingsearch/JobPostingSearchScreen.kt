@@ -40,7 +40,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -62,6 +61,7 @@ import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.component.BoxWithBackground
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -73,7 +73,7 @@ fun JobPostingSearchScreen(
 ) {
     val viewModel = koinViewModel(JobPostingSearchViewModel::class)
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ScreenContent(
         uiState = uiState,

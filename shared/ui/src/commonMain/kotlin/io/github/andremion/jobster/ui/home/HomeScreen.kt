@@ -63,6 +63,7 @@ import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 
@@ -95,7 +96,7 @@ fun HomeScreen(
 ) {
     val viewModel = koinViewModel(HomeViewModel::class)
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ScreenContent(
         navigator = navigator,

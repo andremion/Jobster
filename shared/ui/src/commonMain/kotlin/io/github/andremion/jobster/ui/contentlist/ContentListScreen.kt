@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import io.github.andremion.jobster.domain.entity.Job
@@ -15,6 +14,7 @@ import io.github.andremion.jobster.presentation.contentlist.ContentListUiState
 import io.github.andremion.jobster.presentation.contentlist.ContentListViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
@@ -23,7 +23,7 @@ fun ContentListScreen(
 ) {
     val viewModel = koinViewModel(ContentListViewModel::class)
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ScreenContent(
         uiState = uiState,
