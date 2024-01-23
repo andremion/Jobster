@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import moe.tlaster.precompose.viewmodel.ViewModel
 
-internal val WhileSubscribed = SharingStarted.WhileSubscribed()
+internal val WhileSubscribed = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000)
 
 /**
  * Abstract [ViewModel] class that:
