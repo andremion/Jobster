@@ -21,11 +21,11 @@ android {
         }
     }
 
-    val releaseKeyStoreFile = project.property("releaseKeyStoreFile")?.toString()
+    val releaseKeyStoreFile = properties["releaseKeyStoreFile"]?.toString()
         ?: System.getenv("releaseKeyStoreFile")
-    val releaseKeyStoreAlias = project.property("releaseKeyStoreAlias")?.toString()
+    val releaseKeyStoreAlias = properties["releaseKeyStoreAlias"]?.toString()
         ?: System.getenv("releaseKeyStoreAlias")
-    val releaseKeyStorePassword = project.property("releaseKeyStorePassword")?.toString()
+    val releaseKeyStorePassword = properties["releaseKeyStorePassword"]?.toString()
         ?: System.getenv("releaseKeyStorePassword")
     val releaseKeysProvided =
         releaseKeyStoreFile != null && releaseKeyStoreAlias != null && releaseKeyStorePassword != null

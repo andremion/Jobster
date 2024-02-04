@@ -59,7 +59,7 @@ android {
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        val geminiApiKey = project.property("geminiApiKey") ?: System.getenv("GEMINI_API_KEY") ?: "NOT_PROVIDED"
+        val geminiApiKey = properties["geminiApiKey"] ?: System.getenv("GEMINI_API_KEY") ?: "NOT_PROVIDED"
         buildConfigField("String", "GeminiApiKey", "\"$geminiApiKey\"")
     }
 }
