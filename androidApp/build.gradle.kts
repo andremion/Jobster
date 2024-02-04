@@ -21,16 +21,23 @@ android {
         }
     }
 
+    val releaseKeyStoreFile = project.property("releaseKeyStoreFile")?.toString()
+        ?: System.getenv("releaseKeyStoreFile")
+    val releaseKeyStoreAlias = project.property("releaseKeyStoreAlias")?.toString()
+        ?: System.getenv("releaseKeyStoreAlias")
+    val releaseKeyStorePassword = project.property("releaseKeyStorePassword")?.toString()
+        ?: System.getenv("releaseKeyStorePassword")
+    val releaseKeysProvided =
+        releaseKeyStoreFile != null && releaseKeyStoreAlias != null && releaseKeyStorePassword != null
+
     signingConfigs {
-        val default = "NOT_PROVIDED"
-        val releaseKeyStoreFile: String? by project
-        val releaseKeyStoreAlias: String? by project
-        val releaseKeyStorePassword: String? by project
-        create("release") {
-            storeFile = file(releaseKeyStoreFile ?: System.getenv("releaseKeyStoreFile") ?: default)
-            storePassword = releaseKeyStorePassword ?: System.getenv("releaseKeyStorePassword") ?: default
-            keyAlias = releaseKeyStoreAlias ?: System.getenv("releaseKeyStoreAlias") ?: default
-            keyPassword = releaseKeyStorePassword ?: System.getenv("releaseKeyStorePassword") ?: default
+        if (releaseKeysProvided) {
+            create("release") {
+                storeFile = file(releaseKeyStoreFile)
+                storePassword = releaseKeyStorePassword
+                keyAlias = releaseKeyStoreAlias
+                keyPassword = releaseKeyStorePassword
+            }
         }
     }
 
@@ -39,7 +46,9 @@ android {
             applicationIdSuffix = ".debug"
         }
         release {
-            signingConfig = signingConfigs.getByName("release")
+            if (releaseKeysProvided) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
