@@ -8,9 +8,17 @@ upsert:
 INSERT OR REPLACE INTO jobContentTable (jobId, contentId)
 VALUES (:jobId, :contentId);
 
-delete:
+deleteByJobIdAndContentId:
 DELETE FROM jobContentTable
 WHERE jobId = :jobId AND contentId = :contentId;
+
+deleteByContentId:
+DELETE FROM jobContentTable
+WHERE contentId = :contentId;
+
+getJobIdsByContentId:
+SELECT jobId FROM jobContentTable
+WHERE contentId = :contentId;
 
 countByJobId:
 SELECT COUNT() FROM jobContentTable

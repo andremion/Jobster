@@ -60,6 +60,10 @@ internal class JobRepositoryImpl(
         jobDao.delete(jobId, contentId)
     }
 
+    override suspend fun delete(contentId: String) = withContext(dispatcher) {
+        jobDao.delete(contentId)
+    }
+
     override fun searchForContent(query: String): Flow<List<SearchResult>?> =
         if (query.isNotBlank() && query.length >= MinimumQueryLength) {
             jobDao.searchForContent(query)

@@ -37,10 +37,25 @@ internal class JobDao(
     suspend fun delete(jobId: String, contentId: String) {
         withContext(dispatcher) {
             jobQueries.transaction {
-                jobContentQueries.delete(jobId, contentId)
+                jobContentQueries.deleteByJobIdAndContentId(jobId, contentId)
                 contentQueries.deleteById(contentId)
                 if (jobContentQueries.countByJobId(jobId).executeAsOne() == 0L) {
                     jobQueries.deleteById(jobId)
+                }
+            }
+        }
+    }
+
+    suspend fun delete(contentId: String) {
+        withContext(dispatcher) {
+            jobQueries.transaction {
+                val jobIds = jobContentQueries.getJobIdsByContentId(contentId).executeAsList()
+                jobContentQueries.deleteByContentId(contentId)
+                contentQueries.deleteById(contentId)
+                jobIds.forEach { jobId ->
+                    if (jobContentQueries.countByJobId(jobId).executeAsOne() == 0L) {
+                        jobQueries.deleteById(jobId)
+                    }
                 }
             }
         }

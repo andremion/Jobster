@@ -14,7 +14,8 @@ deleteById:
 DELETE FROM contentTable WHERE contentId = :contentId;
 
 selectAll:
-SELECT * FROM contentTable;
+SELECT * FROM contentTable
+ORDER BY title ASC;
 
 getByIds:
 SELECT * FROM contentTable

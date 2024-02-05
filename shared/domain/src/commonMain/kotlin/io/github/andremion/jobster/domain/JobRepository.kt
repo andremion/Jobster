@@ -14,5 +14,6 @@ interface JobRepository {
     suspend fun searchJobPosting(url: String): JobPosting
     suspend fun save(jobPosting: JobPosting, contents: List<JobPosting.Content>)
     suspend fun delete(jobId: String, contentId: String)
+    suspend fun delete(contentId: String)
     fun searchForContent(query: String): Flow<List<SearchResult>?>
 }

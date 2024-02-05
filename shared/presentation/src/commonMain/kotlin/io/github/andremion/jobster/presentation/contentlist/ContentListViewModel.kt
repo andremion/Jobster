@@ -6,10 +6,11 @@ import io.github.andremion.jobster.presentation.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class ContentListViewModel(
-    jobRepository: JobRepository
+    private val jobRepository: JobRepository
 ) : AbsViewModel<ContentListUiState, ContentListUiEvent, ContentListUiEffect>() {
 
     override val uiState: StateFlow<ContentListUiState> = jobRepository.getContents()
@@ -29,6 +30,12 @@ class ContentListViewModel(
         when (uiEvent) {
             is ContentListUiEvent.ContentClick -> {
                 mutableUiEffect.tryEmit(ContentListUiEffect.NavigateToUrl(uiEvent.url))
+            }
+
+            is ContentListUiEvent.DeleteContent -> {
+                viewModelScope.launch {
+                    jobRepository.delete(uiEvent.contentId)
+                }
             }
         }
     }
