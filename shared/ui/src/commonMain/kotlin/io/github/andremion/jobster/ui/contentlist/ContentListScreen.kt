@@ -1,11 +1,13 @@
 package io.github.andremion.jobster.ui.contentlist
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.andremion.jobster.domain.entity.Job
 import io.github.andremion.jobster.presentation.contentlist.ContentListUiEffect
@@ -41,6 +43,7 @@ fun ContentListScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ScreenContent(
     uiState: ContentListUiState,
@@ -55,8 +58,11 @@ private fun ScreenContent(
                 key = Job.Content::id
             ) { content ->
                 ContentItem(
+                    modifier = Modifier
+                        .animateItemPlacement(),
                     content = content,
-                    onClick = { onUiEvent(ContentListUiEvent.ContentClick(content.url)) }
+                    onClick = { onUiEvent(ContentListUiEvent.ContentClick(content.url)) },
+                    onSwipeToDelete = { onUiEvent(ContentListUiEvent.DeleteContent(content.id)) },
                 )
             }
         }

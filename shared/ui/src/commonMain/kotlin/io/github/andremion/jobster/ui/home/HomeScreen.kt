@@ -248,13 +248,13 @@ private fun SearchBar(
     searchResults: List<SearchResult>?,
     onUiEvent: (HomeUiEvent) -> Unit
 ) {
-    val animated by animateDpAsState(
+    val horizontalPadding by animateDpAsState(
         targetValue = if (isSearchBarActive) 0.dp else 16.dp,
         label = "searchBarHorizontalPaddingAnimation"
     )
     SearchBar(
         modifier = Modifier
-            .padding(horizontal = animated)
+            .padding(horizontal = horizontalPadding)
             .fillMaxWidth(),
         query = query,
         onQueryChange = { changedQuery ->

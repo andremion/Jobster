@@ -1,5 +1,6 @@
 package io.github.andremion.jobster.ui.jobdetails
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -55,6 +56,7 @@ fun JobDetailsScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ScreenContent(
     uiState: JobDetailsUiState,
@@ -87,8 +89,10 @@ private fun ScreenContent(
                 key = Job.Content::id
             ) { content ->
                 ContentItem(
+                    modifier = Modifier.animateItemPlacement(),
                     content = content,
-                    onClick = { onUiEvent(JobDetailsUiEvent.ContentClick(content.url)) }
+                    onClick = { onUiEvent(JobDetailsUiEvent.ContentClick(content.url)) },
+                    onSwipeToDelete = { onUiEvent(JobDetailsUiEvent.DeleteContent(content.id)) },
                 )
             }
         }
