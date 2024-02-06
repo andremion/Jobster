@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,12 +63,24 @@ private fun ScreenContent(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(
+            itemsIndexed(
                 items = items,
-            ) { job ->
-                Card {
+                key = { _, job -> job.id }
+            ) { index, job ->
+                val cardColor = if (index % 2 == 0) {
+                    MaterialTheme.colorScheme.tertiaryContainer
+                } else {
+                    MaterialTheme.colorScheme.secondaryContainer
+                }
+                Card(
+                    shape = RoundedCornerShape(
+                        topEnd = CardCornerSize,
+                        bottomStart = CardCornerSize
+                    ),
+                    colors = CardDefaults.cardColors(containerColor = cardColor)
+                ) {
                     Column(
                         modifier = Modifier
                             .clickable { onUiEvent(JobListUiEvent.JobClick(job.id)) }
@@ -96,6 +110,8 @@ private fun ScreenContent(
         }
     }
 }
+
+private val CardCornerSize = 16.dp
 
 //@Preview(showBackground = true)
 //@Composable
