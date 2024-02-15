@@ -70,9 +70,9 @@ private fun ScreenContent(
                 key = { _, job -> job.id }
             ) { index, job ->
                 val cardColor = if (index % 2 == 0) {
-                    MaterialTheme.colorScheme.tertiaryContainer
-                } else {
                     MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
                 }
                 Card(
                     shape = RoundedCornerShape(

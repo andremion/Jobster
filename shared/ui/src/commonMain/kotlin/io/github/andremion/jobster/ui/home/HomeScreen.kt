@@ -144,6 +144,8 @@ private fun ScreenContent(
                 isVisible = isNavigationBarVisible
             ) {
                 ExtendedFloatingActionButton(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                     onClick = {
                         onUiEvent(HomeUiEvent.AddContentClick)
                     },
@@ -219,7 +221,7 @@ private fun EmptyHint(
     ) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
             )
         ) {
             Row(
