@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -65,21 +65,16 @@ private fun ScreenContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            itemsIndexed(
+            items(
                 items = items,
-                key = { _, job -> job.id }
-            ) { index, job ->
-                val cardColor = if (index % 2 == 0) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    MaterialTheme.colorScheme.surfaceVariant
-                }
+                key = JobListUiState.Job::id
+            ) { job ->
                 Card(
                     shape = RoundedCornerShape(
                         topEnd = CardCornerSize,
                         bottomStart = CardCornerSize
                     ),
-                    colors = CardDefaults.cardColors(containerColor = cardColor)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Column(
                         modifier = Modifier
