@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import jobster.shared.ui.generated.resources.Res
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -36,7 +37,7 @@ fun BoxWithBackground(
     ) {
         Image(
             modifier = Modifier.align(Alignment.Center),
-            painter = painterResource("images/bg_gemini.png"),
+            painter = painterResource(Res.drawable.bg_gemini),
             contentDescription = "Background"
         )
         content(this)

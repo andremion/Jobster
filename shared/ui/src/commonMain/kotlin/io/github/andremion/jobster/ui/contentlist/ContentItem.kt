@@ -31,14 +31,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -68,9 +67,9 @@ fun ContentItem(
             onSwipeToDelete()
         }
     }
-    val dismissState = rememberDismissState(
+    val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
-            if (value == DismissValue.DismissedToStart) {
+            if (value == SwipeToDismissBoxValue.EndToStart) {
                 isDismissed = true
                 true
             } else {
@@ -83,16 +82,16 @@ fun ContentItem(
         exit = shrinkVertically(animationSpec = tween())
             + fadeOut(animationSpec = tween()),
     ) {
-        SwipeToDismiss(
+        SwipeToDismissBox(
             modifier = modifier,
             state = dismissState,
-            background = {
-                val color = if (dismissState.dismissDirection == DismissDirection.EndToStart) {
+            backgroundContent = {
+                val color = if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
                     MaterialTheme.colorScheme.error
                 } else {
                     Color.Transparent
                 }
-                val alpha = if (dismissState.dismissDirection == DismissDirection.EndToStart) {
+                val alpha = if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
                     1f
                 } else {
                     0f
@@ -112,38 +111,37 @@ fun ContentItem(
                     )
                 }
             },
-            dismissContent = {
-                val color = if (dismissState.dismissDirection == DismissDirection.EndToStart) {
-                    MaterialTheme.colorScheme.background
-                } else {
-                    Color.Transparent
-                }
-                Row(
-                    modifier = Modifier
-                        .background(color = color)
-                        .clickable { onClick() }
-                        .padding(
-                            horizontal = 16.dp,
-                            vertical = 8.dp
-                        ),
-                    verticalAlignment = Alignment.CenterVertically,
+            enableDismissFromStartToEnd = false
+        ) {
+            val color = if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+                MaterialTheme.colorScheme.background
+            } else {
+                Color.Transparent
+            }
+            Row(
+                modifier = Modifier
+                    .background(color = color)
+                    .clickable { onClick() }
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 8.dp
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = content.title,
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
-                        Text(
-                            text = content.description,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
+                    Text(
+                        text = content.title,
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                    Text(
+                        text = content.description,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
-            },
-            directions = setOf(DismissDirection.EndToStart)
-        )
+            }
+        }
     }
 }
