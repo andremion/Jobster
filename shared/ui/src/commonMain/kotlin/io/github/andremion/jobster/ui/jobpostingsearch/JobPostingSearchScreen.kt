@@ -75,6 +75,7 @@ import io.github.andremion.jobster.presentation.jobpostingsearch.JobPostingSearc
 import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.component.BoxWithBackground
+import jobster.shared.ui.generated.resources.Res
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -372,7 +373,7 @@ private fun SearchBarContent(
                         style = MaterialTheme.typography.labelLarge,
                     )
                     Image(
-                        painter = painterResource("images/ic_gemini.xml"),
+                        painter = painterResource(Res.drawable.ic_gemini),
                         contentDescription = "Gemini"
                     )
                 }

@@ -24,9 +24,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import io.github.alexzhirkevich.compottie.LottieComposition
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec.JsonString
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
+import jobster.shared.ui.generated.resources.Res
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.resource
 import kotlin.jvm.JvmInline
 
 sealed interface LottieCompositionSpec {
@@ -46,8 +47,8 @@ fun rememberLottieComposition(spec: LottieCompositionSpec): State<LottieComposit
     }
 
 @Composable
-fun rememberLottieData(spec: LottieCompositionSpec): String? {
-    var data by remember { mutableStateOf<String?>(null) }
+fun rememberLottieData(spec: LottieCompositionSpec): JsonString? {
+    var data by remember { mutableStateOf<JsonString?>(null) }
     LaunchedEffect(spec) {
         data = when (spec) {
             is LottieCompositionSpec.AnimationRes -> {
@@ -59,6 +60,7 @@ fun rememberLottieData(spec: LottieCompositionSpec): String? {
 }
 
 @OptIn(ExperimentalResourceApi::class)
-private suspend fun loadAnimationData(animationRes: LottieCompositionSpec.AnimationRes): String =
-    resource("animations/${animationRes.name}.json")
-        .readBytes().decodeToString()
+private suspend fun loadAnimationData(animationRes: LottieCompositionSpec.AnimationRes): JsonString =
+    Res.readBytes("files/${animationRes.name}.json")
+        .decodeToString()
+        .let(::JsonString)
