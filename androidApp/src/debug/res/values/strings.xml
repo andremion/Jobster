@@ -1,3 +1,3 @@
 <resources>
-    <string name="app_name">Jobster Debug</string>
+    <string name="app_name" translatable="false">Jobster debug</string>
 </resources>

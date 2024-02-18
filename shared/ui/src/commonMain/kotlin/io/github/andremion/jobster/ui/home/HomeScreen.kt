@@ -14,6 +14,8 @@
  *    limitations under the License.
  */
 
+@file:OptIn(ExperimentalResourceApi::class)
+
 package io.github.andremion.jobster.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
@@ -77,11 +79,14 @@ import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.component.BoxWithBackground
 import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
+import jobster.shared.ui.generated.resources.Res
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 private enum class NavigationItem(
     val route: String,
@@ -247,10 +252,10 @@ private fun EmptyHint(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Lightbulb,
-                    contentDescription = "Hint",
+                    contentDescription = null,
                 )
                 Text(
-                    text = "Start by adding content from job postings",
+                    text = stringResource(Res.string.home_empty_hint),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -284,7 +289,7 @@ private fun SearchBar(
             onUiEvent(HomeUiEvent.UpdateSearchBarActive(isActive = active))
         },
         placeholder = {
-            Text(text = "Search saved content")
+            Text(text = stringResource(Res.string.home_search_placeholder))
         },
         leadingIcon = {
             if (isSearchBarActive) {
@@ -404,7 +409,7 @@ private fun EmptySearchResults(
                 iterations = LottieConstants.IterateForever,
             )
             Text(
-                text = "No content found! \uD83D\uDE41",
+                text = stringResource(Res.string.home_search_results_empty),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
             )

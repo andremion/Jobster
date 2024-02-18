@@ -14,6 +14,8 @@
  *    limitations under the License.
  */
 
+@file:OptIn(ExperimentalResourceApi::class)
+
 package io.github.andremion.jobster.ui.jobpostingsearch
 
 import androidx.compose.animation.AnimatedVisibility
@@ -82,6 +84,7 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun JobPostingSearchScreen(
@@ -258,7 +261,7 @@ private fun SearchBar(
             onUiEvent(JobPostingSearchUiEvent.UpdateSearchBarActive(isActive = active))
         },
         placeholder = {
-            Text(text = "Enter a job posting URL")
+            Text(text = stringResource(Res.string.job_posting_search_placeholder))
         },
         leadingIcon = {
             if (uiState.isSearchBarActive) {
@@ -369,12 +372,12 @@ private fun SearchBarContent(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
-                        text = "Powered by",
+                        text = stringResource(Res.string.job_posting_search_background_text1),
                         style = MaterialTheme.typography.labelLarge,
                     )
                     Image(
                         painter = painterResource(Res.drawable.ic_gemini),
-                        contentDescription = "Gemini"
+                        contentDescription = stringResource(Res.string.job_posting_search_background_text2)
                     )
                 }
             }

@@ -1,0 +1,9 @@
+<resources>
+    <string name="game_title" translatable="false">Sliding Puzzle Game</string>
+    <string name="home_empty_hint">Start by adding content from job postings</string>
+    <string name="home_search_placeholder">Search saved content</string>
+    <string name="home_search_results_empty">No content found! 🙁</string>
+    <string name="job_posting_search_placeholder">Enter a job posting URL</string>
+    <string name="job_posting_search_background_text1">Powered by</string>
+    <string name="job_posting_search_background_text2">Gemini</string>
+</resources>
