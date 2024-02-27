@@ -39,12 +39,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -78,6 +78,10 @@ import io.github.andremion.jobster.ui.animation.LottieCompositionSpec
 import io.github.andremion.jobster.ui.animation.rememberLottieComposition
 import io.github.andremion.jobster.ui.component.BoxWithBackground
 import jobster.shared.ui.generated.resources.Res
+import jobster.shared.ui.generated.resources.ic_gemini
+import jobster.shared.ui.generated.resources.job_posting_search_background_text1
+import jobster.shared.ui.generated.resources.job_posting_search_background_text2
+import jobster.shared.ui.generated.resources.job_posting_search_placeholder
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -168,7 +172,7 @@ private fun ScreenContent(
                             }
                         }
                         Spacer(modifier = Modifier.size(16.dp))
-                        Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     }
                     items(
                         items = jobPosting.contents,
@@ -269,7 +273,7 @@ private fun SearchBar(
                     onClick = { onUiEvent(JobPostingSearchUiEvent.SearchBarBackClick) },
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "Cancel Search",
                     )
                 }
@@ -278,7 +282,7 @@ private fun SearchBar(
                     onClick = { onUiEvent(JobPostingSearchUiEvent.BackClick) },
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "Back to Home",
                     )
                 }

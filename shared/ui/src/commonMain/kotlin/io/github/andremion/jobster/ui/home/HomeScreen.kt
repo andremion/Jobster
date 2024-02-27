@@ -34,13 +34,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.Segment
+import androidx.compose.material.icons.automirrored.rounded.Sort
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.PostAdd
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Segment
-import androidx.compose.material.icons.rounded.Sort
 import androidx.compose.material.icons.rounded.Work
 import androidx.compose.material.icons.rounded.WorkOutline
 import androidx.compose.material3.Card
@@ -80,6 +80,9 @@ import io.github.andremion.jobster.ui.component.BoxWithBackground
 import io.github.andremion.jobster.ui.navigation.HomeNavHost
 import io.github.andremion.jobster.ui.navigation.navigateSingleTopTo
 import jobster.shared.ui.generated.resources.Res
+import jobster.shared.ui.generated.resources.home_empty_hint
+import jobster.shared.ui.generated.resources.home_search_placeholder
+import jobster.shared.ui.generated.resources.home_search_results_empty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -103,8 +106,8 @@ private enum class NavigationItem(
     Contents(
         route = "contents",
         label = "Contents",
-        unselectedIcon = Icons.Rounded.Segment,
-        selectedIcon = Icons.Rounded.Sort,
+        unselectedIcon = Icons.AutoMirrored.Rounded.Segment,
+        selectedIcon = Icons.AutoMirrored.Rounded.Sort,
     ),
 }
 
@@ -297,7 +300,7 @@ private fun SearchBar(
                     onClick = { onUiEvent(HomeUiEvent.SearchBarBackClick) },
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "Cancel Search",
                     )
                 }
