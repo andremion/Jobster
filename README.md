@@ -31,6 +31,18 @@ Android|iOS
 This is the only one that is NOT a Multiplatform Kotlin library.
 There are two implementations, one for [Android](shared/data/src/androidMain/kotlin/io/github/andremion/jobster/data/remote/api/GeminiApiImpl.kt) and one for [iOS](iosApp/iosApp/data/GeminiApiImpl.swift).
 
+To use the Gemini API, you'll need an API key. If you don't already have one, create a key in Google AI Studio.
+
+[Get an API key](https://makersuite.google.com/app/apikey)
+
+There is one configuration for each platform:
+
+- **Android:**
+Add `geminiApiKey=YOUR_API_KEY` to your user's `gradle.properties` file
+
+- **iOS:**
+Update the [GeminiInfo.plist](iosApp/iosApp/data/GeminiInfo.plist) file with your API key
+
 ## Available regions
 
 The Gemini API is currently available in [180+ countries](https://ai.google.dev/available_regions#available_regions).
