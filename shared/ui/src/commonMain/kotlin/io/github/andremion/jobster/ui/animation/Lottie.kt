@@ -47,7 +47,7 @@ fun rememberLottieComposition(spec: LottieCompositionSpec): State<LottieComposit
     }
 
 @Composable
-fun rememberLottieData(spec: LottieCompositionSpec): JsonString? {
+private fun rememberLottieData(spec: LottieCompositionSpec): JsonString? {
     var data by remember { mutableStateOf<JsonString?>(null) }
     LaunchedEffect(spec) {
         data = when (spec) {
