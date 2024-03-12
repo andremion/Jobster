@@ -27,8 +27,10 @@ import org.koin.dsl.module
 fun initDI(
     geminiApi: GeminiApi
 ): KoinApplication =
-    initDI().modules(
-        module {
-            factory { geminiApi }
-        }
-    )
+    initDI {
+        modules(
+            module {
+                factory { geminiApi }
+            }
+        )
+    }
