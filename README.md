@@ -1,6 +1,8 @@
 <img alt="Icon" src="https://github.com/andremion/Jobster/assets/12762356/c841549c-1bd6-4640-9cc4-24bd42711ead" width=100 align="left" hspace="1" vspace="1">
 
-<a target=_blank href='https://play.google.com/store/apps/details?id=io.github.andremion.jobster.android&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=48 align=right /></a>
+[![CI](https://github.com/andremion/Jobster/actions/workflows/ci.yml/badge.svg)](https://github.com/andremion/Jobster/actions/workflows/ci.yml)
+
+<a target=_blank href='https://play.google.com/store/apps/details?id=io.github.andremion.jobster.android&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=48 /></a>
 
 # Jobster
 
